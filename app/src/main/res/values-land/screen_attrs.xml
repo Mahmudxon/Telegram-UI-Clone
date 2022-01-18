@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_device">phone</string>
+    <string name="_screenOrientation">landscape</string>
+</resources>
