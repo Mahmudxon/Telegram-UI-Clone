@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
@@ -18,9 +19,9 @@ import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 @ExperimentalPagerApi
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val titles = arrayOf<String>(
+
+    private val titles by lazy {
+        arrayOf(
             getString(R.string.Page1Title),
             getString(R.string.Page2Title),
             getString(R.string.Page3Title),
@@ -28,7 +29,9 @@ class SplashActivity : AppCompatActivity() {
             getString(R.string.Page4Title),
             getString(R.string.Page6Title)
         )
-        val messages = arrayOf<String>(
+    }
+    private val messages by lazy {
+        arrayOf(
             getString(R.string.Page1Message),
             getString(R.string.Page2Message),
             getString(R.string.Page3Message),
@@ -36,9 +39,27 @@ class SplashActivity : AppCompatActivity() {
             getString(R.string.Page4Message),
             getString(R.string.Page6Message)
         )
+    }
 
+    private val icons by lazy {
+        arrayOf(
+            R.raw.telegram,
+            R.raw.rocket,
+            R.raw.gift,
+            R.raw.strong,
+            R.raw.security,
+            R.raw.cloud
+        )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContent {
-            Column( modifier = Modifier.fillMaxSize(),
+            val pagerState = rememberPagerState()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Gray),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -49,34 +70,42 @@ class SplashActivity : AppCompatActivity() {
                                 .fillMaxSize()
                                 .background(Color.White)
                         )
-                        {
-                            IntroPagerView(
-                                messages = titles.toList(),
-                                description = messages.toList()
-                            )
-                            IntroLottieView()
-                        }
+
+                        IntroPagerView(
+                            pagerState = pagerState,
+                            messages = titles.toList(),
+                            description = messages.toList()
+                        )
+                        IntroLottieView(
+                            pagerState = pagerState,
+                            onclick = {},
+                            icons = icons.asList()
+                        )
                     }
 
                     Device.Type.Tablet -> {
                         Box(
                             modifier = Modifier
-                                .height(500.dp)
+                                .height(450.dp)
                                 .width(500.dp)
                                 .background(Color.White)
                         )
                         {
+
                             IntroPagerView(
+                                pagerState = pagerState,
                                 messages = titles.toList(),
                                 description = messages.toList()
                             )
-                            IntroLottieView()
+                            IntroLottieView(
+                                pagerState = pagerState,
+                                onclick = {},
+                                icons = icons.asList()
+                            )
                         }
                     }
                 }
             }
         }
     }
-
-
 }
