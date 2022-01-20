@@ -1,44 +1,47 @@
 package uz.uniconsoft.messanger.presentation.theme
 
-import uz.uniconsoft.messanger.R
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
+import androidx.compose.runtime.Composable
 
-abstract class Theme {
-    abstract val id: Int
-    abstract val name: Int
-    abstract val style: Int
-    abstract val isDark: Boolean
+private val DarkColorPalette = darkColors(
+    primary = Blue200,
+    primaryVariant = Blue700,
+    secondary = Teal200
+)
 
-    /** System **/
-    abstract val statusBarColor: Int
-    abstract val statusBarColorV23: Int
-    abstract val isLightStatusBar: Boolean
-    abstract val navigationBarColor: Int
-    abstract val navigationBarColorV28: Int
-    abstract val isLightNavigationBar: Boolean
-    /** End System **/
+private val LightColorPalette = lightColors(
+    primary = Blue500,
+    primaryVariant = Blue700,
+    secondary = Blue200
 
-    /** Background **/
-    abstract val backgroundColor: Int
-    abstract val actionBackColor: Int
-    abstract val chatBackColor: Int
-    abstract val ownChatBack: Int
-    abstract val othersChatBack: Int
-    /** End Background **/
+    /* Other default colors to override
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    */
+)
 
-    /** Text & Icon **/
-    abstract val defaultTextColor: Int
-    abstract val actionBarTextColor: Int
-    abstract val secondaryTextColor: Int
-    abstract val specialTextColor: Int
-    abstract val checkedTextColor: Int
-    abstract val contentTextColor: Int
-
-    /** End Text & Icon **/
-
-    val transparent = R.color.transparent
-
-    companion object {
-        const val CLASSIC = 0
-        const val NIGHT_MODE = -1
+@Composable
+fun MessangerTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
     }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
 }
