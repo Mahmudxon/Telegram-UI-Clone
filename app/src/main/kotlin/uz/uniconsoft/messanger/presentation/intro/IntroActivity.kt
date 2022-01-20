@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.splash
+package uz.uniconsoft.messanger.presentation.intro
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,10 +15,11 @@ import com.google.accompanist.pager.rememberPagerState
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
+import uz.uniconsoft.messanger.presentation.theme.MessangerTheme
 
 @ExperimentalPagerApi
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity() {
+class IntroActivity : AppCompatActivity() {
 
     private val titles by lazy {
         arrayOf(
@@ -55,21 +56,29 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val pagerState = rememberPagerState()
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Gray),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                when (getDeviceType()) {
-                    Device.Type.Phone -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.White)
-                        )
+            MessangerTheme {
+                val pagerState = rememberPagerState()
+                val boxModifier = if (getDeviceType() == Device.Type.Tablet)
+                    Modifier
+                        .height(450.dp)
+                        .width(500.dp)
+                        .background(Color.White)
+                else
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Gray),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = boxModifier
+                    )
+                    {
 
                         IntroPagerView(
                             pagerState = pagerState,
@@ -83,28 +92,8 @@ class SplashActivity : AppCompatActivity() {
                         )
                     }
 
-                    Device.Type.Tablet -> {
-                        Box(
-                            modifier = Modifier
-                                .height(450.dp)
-                                .width(500.dp)
-                                .background(Color.White)
-                        )
-                        {
-
-                            IntroPagerView(
-                                pagerState = pagerState,
-                                messages = titles.toList(),
-                                description = messages.toList()
-                            )
-                            IntroLottieView(
-                                pagerState = pagerState,
-                                onclick = {},
-                                icons = icons.asList()
-                            )
-                        }
-                    }
                 }
+
             }
         }
     }

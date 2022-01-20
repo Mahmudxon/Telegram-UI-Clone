@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.splash
+package uz.uniconsoft.messanger.presentation.intro
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import uz.uniconsoft.messanger.R
+import uz.uniconsoft.messanger.presentation.theme.Blue200
 
 @ExperimentalPagerApi
 @Composable
@@ -120,6 +124,8 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(16.dp),
+                activeColor = Blue200,
+                inactiveColor = Color.Gray
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -137,7 +143,15 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
                         .clip(RoundedCornerShape(5.dp))
                 )
                 {
-
+                    Text(
+                        text = stringResource(id = R.string.StartMessaging).uppercase(),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxSize(),
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 16.sp
+                        )
+                    )
                 }
             }
         }
