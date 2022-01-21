@@ -15,7 +15,7 @@ import com.google.accompanist.pager.rememberPagerState
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
-import uz.uniconsoft.messanger.presentation.theme.MessangerTheme
+import uz.uniconsoft.messanger.presentation.theme.AppTheme
 
 @ExperimentalPagerApi
 @SuppressLint("CustomSplashScreen")
@@ -44,19 +44,20 @@ class IntroActivity : AppCompatActivity() {
 
     private val icons by lazy {
         arrayOf(
-            R.raw.telegram,
-            R.raw.rocket,
-            R.raw.gift,
-            R.raw.strong,
-            R.raw.security,
-            R.raw.cloud
+            R.drawable.intro1,
+            R.drawable.intro2,
+            R.drawable.intro3,
+            R.drawable.intro4,
+            R.drawable.intro5,
+            R.drawable.intro6,
+            R.drawable.intro7,
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MessangerTheme {
+            AppTheme {
                 val pagerState = rememberPagerState()
                 val boxModifier = if (getDeviceType() == Device.Type.Tablet)
                     Modifier

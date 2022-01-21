@@ -1,28 +1,30 @@
 package uz.uniconsoft.messanger.presentation.intro
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import uz.uniconsoft.messanger.R
+import uz.uniconsoft.messanger.business.domain.util.StyledText
+import uz.uniconsoft.messanger.business.domain.util.replaceTags
 import uz.uniconsoft.messanger.presentation.theme.Blue200
 
 @ExperimentalPagerApi
@@ -55,11 +57,10 @@ fun IntroPagerView(
                     fontSize = 20.sp,
                     style = TextStyle()
                 )
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = description[page],
+                StyledText(
+                    text = replaceTags(LocalContext.current, description[page]),
                     modifier = Modifier.fillMaxWidth(),
-                    fontSize = 15.sp
+                    textAlign = TextAlign.Center
                 )
             }
 
@@ -77,34 +78,41 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(1f)
+                .padding(bottom = 16.dp)
+            ,
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            var isPlaying by remember {
-                mutableStateOf(false)
-            }
-
-            LaunchedEffect(pagerState) {
-                isPlaying = true
-            }
-
-            val composition by rememberLottieComposition(
-                LottieCompositionSpec.RawRes(icons[pagerState.currentPage])
+            Image(
+                modifier = Modifier.width(90.dp).height(90.dp),
+                painter = painterResource(id = icons[pagerState.currentPage]),
+                contentDescription = ""
             )
-            val progress by animateLottieCompositionAsState(
-                composition = composition,
-                isPlaying = isPlaying
-            )
-            LottieAnimation(
-                composition,
-                progress,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .height(90.dp)
-                    .width(90.dp)
-            )
+//            var isPlaying by remember {
+//                mutableStateOf(false)
+//            }
+//
+//            LaunchedEffect(pagerState) {
+//                isPlaying = true
+//            }
+//
+//            val composition by rememberLottieComposition(
+//                LottieCompositionSpec.RawRes(icons[pagerState.currentPage])
+//            )
+//            val progress by animateLottieCompositionAsState(
+//                composition = composition,
+//                isPlaying = isPlaying
+//            )
+//            LottieAnimation(
+//                composition,
+//                progress,
+//                modifier = Modifier
+//                    .padding(16.dp)
+//                    .height(90.dp)
+//                    .width(90.dp)
+//            )
         }
         Column(
             modifier = Modifier
