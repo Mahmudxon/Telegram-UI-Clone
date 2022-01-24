@@ -1,24 +1,28 @@
 package uz.uniconsoft.messanger.presentation.intro
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.business.domain.util.Device
-import uz.uniconsoft.messanger.business.domain.util.getDeviceType
+import uz.uniconsoft.messanger.presentation.auth.AuthActivity
 import uz.uniconsoft.messanger.presentation.theme.AppTheme
+import uz.uniconsoft.messanger.presentation.util.Device
+import uz.uniconsoft.messanger.presentation.util.getDeviceType
 
+@AndroidEntryPoint
 @ExperimentalPagerApi
-@SuppressLint("CustomSplashScreen")
 class IntroActivity : AppCompatActivity() {
 
     private val titles by lazy {
@@ -58,43 +62,53 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                val pagerState = rememberPagerState()
-                val boxModifier = if (getDeviceType() == Device.Type.Tablet)
-                    Modifier
-                        .height(450.dp)
-                        .width(500.dp)
-                        .background(Color.White)
-                else
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.White)
+                Surface(color = MaterialTheme.colors.background) {
+                    val pagerState = rememberPagerState()
+                    val boxModifier = if (getDeviceType() == Device.Type.Tablet)
+                        Modifier
+                            .height(450.dp)
+                            .width(500.dp)
+                            .background(Color.White)
+                    else
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Gray),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(
-                        modifier = boxModifier
-                    )
-                    {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            modifier = boxModifier
+                        )
+                        {
 
-                        IntroPagerView(
-                            pagerState = pagerState,
-                            messages = titles.toList(),
-                            description = messages.toList()
-                        )
-                        IntroLottieView(
-                            pagerState = pagerState,
-                            onclick = {},
-                            icons = icons.asList()
-                        )
+                            IntroPagerView(
+                                pagerState = pagerState,
+                                messages = titles.toList(),
+                                description = messages.toList()
+                            )
+                            IntroLottieView(
+                                pagerState = pagerState,
+                                onclick = {
+                                    startActivity(
+                                        Intent(
+                                            this@IntroActivity,
+                                            AuthActivity::class.java
+                                        )
+                                    )
+                                    finish()
+                                },
+                                icons = icons.asList()
+                            )
+                        }
+
                     }
 
                 }
-
             }
         }
     }

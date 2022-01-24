@@ -127,4 +127,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist_version"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+
+    // data store
+    def dataStore = "1.0.0"
+    implementation "androidx.datastore:datastore-preferences:$dataStore"
 }

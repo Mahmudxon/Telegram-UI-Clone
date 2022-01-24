@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,9 +22,10 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.business.domain.util.StyledText
-import uz.uniconsoft.messanger.business.domain.util.replaceTags
+import uz.uniconsoft.messanger.presentation.util.StyledText
+import uz.uniconsoft.messanger.presentation.util.replaceTags
 import uz.uniconsoft.messanger.presentation.theme.Blue200
+import uz.uniconsoft.messanger.presentation.theme.Blue500
 
 @ExperimentalPagerApi
 @Composable
@@ -55,12 +55,13 @@ fun IntroPagerView(
                     modifier = Modifier
                         .fillMaxWidth(),
                     fontSize = 20.sp,
-                    style = TextStyle()
+                    style = TextStyle(color = Color(0xFF444444)),
                 )
                 StyledText(
                     text = replaceTags(LocalContext.current, description[page]),
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    textColor = Color.Gray
                 )
             }
 

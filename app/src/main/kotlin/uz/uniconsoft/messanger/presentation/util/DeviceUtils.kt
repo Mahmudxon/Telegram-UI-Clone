@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.business.domain.util
+package uz.uniconsoft.messanger.presentation.util
 
 import android.content.Context
 import android.content.res.Resources

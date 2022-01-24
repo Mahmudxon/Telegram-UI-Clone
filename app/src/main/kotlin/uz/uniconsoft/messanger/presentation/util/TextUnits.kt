@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.business.domain.util
+package uz.uniconsoft.messanger.presentation.util
 
 import android.content.Context
 import android.graphics.Paint
@@ -12,6 +12,8 @@ import android.view.Gravity
 import android.widget.TextView
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.*
@@ -147,19 +149,27 @@ fun getTypeFace(ctx: Context, assetPath: String): Typeface {
 }
 
 @Composable
-fun StyledText(text: CharSequence, modifier: Modifier = Modifier, textAlign: TextAlign? = null) {
+fun StyledText(
+    text: CharSequence,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    textColor: Color? = null
+) {
     AndroidView(
         modifier = modifier,
         factory = { context ->
             val textView = TextView(context)
-            when(textAlign)
-            {
-               TextAlign.Center -> {
-                   textView.gravity = Gravity.CENTER
-               }
-               else-> {
-                   textView.gravity = Gravity.START
-               }
+            when (textAlign) {
+                TextAlign.Center -> {
+                    textView.gravity = Gravity.CENTER
+                }
+                else -> {
+                    textView.gravity = Gravity.START
+                }
+            }
+
+            textColor?.let {
+                textView.setTextColor(it.toArgb())
             }
             textView
         },
