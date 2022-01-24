@@ -78,7 +78,7 @@ class ThemeManger @Inject constructor(
         val defaultDarkTheme = Theme(
             id = Theme.defDark,
             name = "Dark",
-            contentBackgroundColor = Color.White,
+            contentBackgroundColor = Color(0xFF222B34),
             windowBackground = Color(0xFFDEE2E7),
             appbarBackgroundColor = Color(0xFF517DA2),
             chatBackgroundColor = Color.White,
