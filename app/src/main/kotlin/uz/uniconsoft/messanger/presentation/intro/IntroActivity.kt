@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,7 @@ import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.presentation.auth.AuthActivity
 import uz.uniconsoft.messanger.presentation.theme.AppTheme
+import uz.uniconsoft.messanger.presentation.theme.Colors
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
 
@@ -66,7 +69,7 @@ class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val theme =  themeManger.currentTheme
+            val theme = themeManger.currentTheme
             AppTheme(theme = theme.value) {
                 Surface(color = MaterialTheme.colors.background) {
                     val pagerState = rememberPagerState()
@@ -106,12 +109,20 @@ class IntroActivity : AppCompatActivity() {
                                             AuthActivity::class.java
                                         )
                                     )
-                                        // finish()
+                                    // finish()
                                 },
                                 icons = icons.asList()
                             )
                         }
 
+                        Button(onClick = {
+                            if (theme.value.isDark)
+                                themeManger.changeTheme(Colors.defLight)
+                            else themeManger.changeTheme(Colors.defDark)
+
+                        }) {
+                            Text(text = "Change Theme")
+                        }
                     }
 
                 }

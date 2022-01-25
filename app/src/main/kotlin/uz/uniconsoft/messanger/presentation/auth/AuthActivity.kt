@@ -5,13 +5,13 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
-import uz.uniconsoft.messanger.business.domain.util.setStatusBarPadding
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
 
@@ -38,13 +38,12 @@ class AuthActivity : AppCompatActivity() {
 
 
 
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(theme.value.chatBackgroundColor)
-                    .padding(32.dp),
-                //verticalArrangement = Arrangement.Center,
-                //horizontalAlignment = Alignment.CenterHorizontally
+                    .background(theme.value.chatBackgroundColor),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
                     modifier = boxModifier
