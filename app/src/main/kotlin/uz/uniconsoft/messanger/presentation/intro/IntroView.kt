@@ -22,10 +22,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.presentation.util.StyledText
-import uz.uniconsoft.messanger.presentation.util.replaceTags
+import uz.uniconsoft.messanger.business.domain.util.StyledText
+import uz.uniconsoft.messanger.business.domain.util.replaceTags
 import uz.uniconsoft.messanger.presentation.theme.Blue200
-import uz.uniconsoft.messanger.presentation.theme.Blue500
 
 @ExperimentalPagerApi
 @Composable
@@ -80,14 +79,15 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = 16.dp)
-            ,
+                .padding(bottom = 16.dp),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Image(
-                modifier = Modifier.width(90.dp).height(90.dp),
+                modifier = Modifier
+                    .width(90.dp)
+                    .height(90.dp),
                 painter = painterResource(id = icons[pagerState.currentPage]),
                 contentDescription = ""
             )

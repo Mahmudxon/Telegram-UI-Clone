@@ -25,4 +25,48 @@
     <string name="Page6Message">**Telegram** lets you access your messages\nfrom multiple devices.</string>
     <string name="StartMessaging">Start Messaging</string>
     <!--signin view-->
+    <string name="YourPhone">Your Phone</string>
+    <string name="StartText">Please confirm your country code and enter your phone number.</string>
+    <string name="ChooseCountry">Choose a country</string>
+    <string name="WrongCountry">Invalid country code</string>
+    <string name="AccountAlreadyLoggedIn">This account is already logged in from this app.</string>
+    <string name="AccountSwitch">Switch</string>
+    <string name="SyncContacts">Sync Contacts</string>
+    <string name="SyncContactsOn">Contacts from this device will be added to this account.</string>
+    <string name="SyncContactsOff">Contacts from this device will not be added to this account.</string>
+    <string name="SyncContactsInfoOn">Contacts from this device will be added to your account.</string>
+    <string name="SyncContactsInfoOff">Turn on to continuously sync contacts from this device with your account.</string>
+    <string name="SyncContactsAdded">Contacts from this device were added to your account.</string>
+    <!--code enter view-->
+    <string name="YourCode">Phone verification</string>
+    <string name="SentSmsCode">We’ve sent an SMS with an activation code to your phone **%1$s**.</string>
+    <string name="SentAppCode">We\'ve sent the code to the **Telegram** app on your other device.</string>
+    <string name="SentAppCodeTitle">Check your Telegram messages</string>
+    <string name="SentSmsCodeTitle">Enter code</string>
+    <string name="SentCallCode">We\'re calling your phone **%1$s**.\n\nDon\'t accept the call, Telegram will process everything automatically.</string>
+    <string name="SentCallOnly">Calling your phone **%1$s** to dictate the code.</string>
+    <string name="CallText">Telegram will call you in %1$d:%2$02d</string>
+    <string name="SmsText">Sending you an SMS in %1$d:%2$02d</string>
+    <string name="Calling">Calling you...</string>
+    <string name="SendingSms">Sending SMS...</string>
+    <string name="Code">Code</string>
+    <string name="WrongNumber">Wrong number?</string>
+    <string name="DidNotGetTheCode">Didn\'t get the code?</string>
+    <string name="DidNotGetTheCodeSms">Send the code as an SMS</string>
+    <string name="CancelAccountReset">Cancel account reset</string>
+    <string name="CancelAccountResetInfo2">Somebody with access to **%1$s** has requested to delete your Telegram account and reset your 2-Step Verification password.\n\nIf this wasn\'t you, please enter the code we\'ve just sent you via SMS. You can also cancel this by *changing your phone number*.</string>
+    <string name="ResetAccount">Reset account</string>
+    <string name="ResetAccountInfo">Since the account **%1$s** is active and protected by a password, we will delete it in 1 week for security purposes.\n\nYou can cancel this process at any time.</string>
+    <string name="ResetAccountStatus">You\'ll be able to reset your account in:</string>
+    <string name="ResetAccountCancelledAlert">Your recent attempts to reset this account have been cancelled by its active user. Please try again in 7 days.</string>
+    <string name="ResetAccountButton">RESET ACCOUNT</string>
+    <string name="CancelLinkExpired">Link is invalid or expired.</string>
+    <string name="CancelLinkSuccess">The deletion process was cancelled for your account %1$s. You may close this window now.</string>
+    <string name="OtherLoginCode">Your login code is **%1$s**. Enter it in the Telegram app where you are trying to log in.\n\nDo not give this code to anyone.</string>
+    <!--signup view-->
+    <string name="YourName">Your name</string>
+    <string name="RegisterText2">Enter your name and add a profile picture.</string>
+    <string name="FirstName">First name (required)</string>
+    <string name="LastName">Last name (optional)</string>
+    <string name="CancelRegistration">Cancel registration</string>
 </resources>

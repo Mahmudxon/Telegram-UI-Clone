@@ -2,18 +2,18 @@ package uz.uniconsoft.messanger.presentation.theme
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import dagger.hilt.android.qualifiers.ApplicationContext
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.business.datasource.datastore.AppDataStore
 import javax.inject.Inject
+import javax.inject.Singleton
 
-data class Theme(
+data class Colors(
     val id: String,
     val name: String,
     // Background
@@ -46,15 +46,13 @@ data class Theme(
 }
 
 
+@Singleton
 class ThemeManger @Inject constructor(
     @ApplicationContext ctx: Context,
-    private val store: AppDataStore
 ) {
-    private val themes = ArrayList<Theme>()
-
-    init {
-        val defaultLightTheme = Theme(
-            id = Theme.defLight,
+    private val themes = arrayListOf(
+        Colors(
+            id = Colors.defLight,
             name = "Light",
             contentBackgroundColor = Color.White,
             windowBackground = Color(0xFFDEE2E7),
@@ -74,14 +72,14 @@ class ThemeManger @Inject constructor(
             chatCaption = Color(0xFFA1AAB3),
             chatOwnCaption = Color(0xFF62AC55),
             isDark = false
-        )
-        val defaultDarkTheme = Theme(
-            id = Theme.defDark,
+        ),
+        Colors(
+            id = Colors.defDark,
             name = "Dark",
             contentBackgroundColor = Color(0xFF222B34),
             windowBackground = Color(0xFFDEE2E7),
             appbarBackgroundColor = Color(0xFF517DA2),
-            chatBackgroundColor = Color.White,
+            chatBackgroundColor = Color.Black,
             chatBackground = R.drawable.chat_background_light,
             ownChatBackgroundColor = Color(0xFFEFFEDD),
             partnerChatBackgroundColor = Color.White,
@@ -97,9 +95,23 @@ class ThemeManger @Inject constructor(
             chatOwnCaption = Color(0xFF62AC55),
             isDark = true
         )
-        themes.add(defaultLightTheme)
-        themes.add(defaultDarkTheme)
+    )
+
+    private var checkedIndex = 0
+
+    var currentTheme = mutableStateOf(themes[checkedIndex])
+
+
+    fun changeTheme(id: String) {
+        for (i in 0 until themes.size) {
+            if (themes[i].id == id) {
+                checkedIndex = i
+                currentTheme.value = themes[checkedIndex]
+                return
+            }
+        }
     }
+
 }
 
 private val DarkColorPalette = darkColors(
@@ -116,10 +128,10 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    theme: Colors,
     content: @Composable() () -> Unit
 ) {
-    val colors = if (darkTheme) {
+    val colors = if (theme.isDark) {
         DarkColorPalette
     } else {
         LightColorPalette

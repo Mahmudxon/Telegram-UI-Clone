@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.util
+package uz.uniconsoft.messanger.business.domain.util
 
 import android.content.Context
 import android.graphics.Paint

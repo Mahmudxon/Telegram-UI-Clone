@@ -16,14 +16,19 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.R
+import uz.uniconsoft.messanger.business.domain.util.Device
+import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.presentation.auth.AuthActivity
 import uz.uniconsoft.messanger.presentation.theme.AppTheme
-import uz.uniconsoft.messanger.presentation.util.Device
-import uz.uniconsoft.messanger.presentation.util.getDeviceType
+import uz.uniconsoft.messanger.presentation.theme.ThemeManger
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @ExperimentalPagerApi
 class IntroActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var themeManger: ThemeManger
 
     private val titles by lazy {
         arrayOf(
@@ -61,7 +66,8 @@ class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppTheme {
+            val theme =  themeManger.currentTheme
+            AppTheme(theme = theme.value) {
                 Surface(color = MaterialTheme.colors.background) {
                     val pagerState = rememberPagerState()
                     val boxModifier = if (getDeviceType() == Device.Type.Tablet)
@@ -77,7 +83,7 @@ class IntroActivity : AppCompatActivity() {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Gray),
+                            .background(theme.value.chatBackgroundColor),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -100,7 +106,7 @@ class IntroActivity : AppCompatActivity() {
                                             AuthActivity::class.java
                                         )
                                     )
-                                    finish()
+                                        // finish()
                                 },
                                 icons = icons.asList()
                             )
