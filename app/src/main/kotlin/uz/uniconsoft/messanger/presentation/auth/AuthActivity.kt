@@ -7,10 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
-import uz.uniconsoft.messanger.presentation.auth.phone.PhoneInputView
+import uz.uniconsoft.messanger.presentation.auth.verification.VerificationScreen
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
@@ -68,9 +64,14 @@ class AuthActivity : AppCompatActivity() {
                         modifier = boxModifier
                     )
                     {
-                        PhoneInputView(
+//                        PhoneInputView(
+//                            theme = theme,
+//                            needPaddingStatusBar = (getDeviceType() == Device.Type.Phone)
+//                        )
+
+                        VerificationScreen(
                             theme = theme,
-                            needPaddingStatusBar = (getDeviceType() == Device.Type.Phone)
+                            needPaddingStatusBar = getDeviceType() == Device.Type.Phone
                         )
                     }
                 }

@@ -1,7 +1,6 @@
 package uz.uniconsoft.messanger.presentation.auth.phone
 
 import android.telephony.PhoneNumberUtils
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,18 +57,18 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
                     .weight(1f)
                     .padding(start = 16.dp)
             )
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxHeight(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = theme.appbarBackgroundColor)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_done_24),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxHeight()
-                )
-            }
+//            Button(
+//                onClick = {},
+//                modifier = Modifier
+//                    .fillMaxHeight(),
+//                colors = ButtonDefaults.buttonColors(backgroundColor = theme.appbarBackgroundColor)
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_baseline_done_24),
+//                    contentDescription = null,
+//                    modifier = Modifier.fillMaxHeight()
+//                )
+//            }
         }
 
         Column(
@@ -158,7 +156,7 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
             }
 
             Text(
-                text = stringResource(id = R.string.StartText),
+                text = stringResource(id = R.string.YourCode),
                 fontSize = 14.sp,
                 color = theme.captionColor,
                 modifier = Modifier
@@ -174,6 +172,14 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
             ) {
                 Icon(Icons.Outlined.NavigateNext, "")
             }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(theme.contentBackgroundColor),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
         }
     }
 }
