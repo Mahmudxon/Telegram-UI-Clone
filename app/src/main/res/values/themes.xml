@@ -17,6 +17,7 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!-- specify enter and exit transitions -->
         <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <style name="SlideAnimation.Activity" parent="@android:style/Animation.Activity">

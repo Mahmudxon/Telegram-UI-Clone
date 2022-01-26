@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -69,6 +70,8 @@ class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val defTheme = if (isSystemInDarkTheme()) Theme.defDark else Theme.defLight
+            themeManger.changeTheme(defTheme)
             val theme = themeManger.currentTheme.value
             val pagerState = rememberPagerState()
             val boxModifier = if (getDeviceType() == Device.Type.Tablet)
@@ -122,14 +125,14 @@ class IntroActivity : AppCompatActivity() {
                         )
                     }
 
-                    Button(onClick = {
-                        if (theme.isDark)
-                            themeManger.changeTheme(Theme.defLight)
-                        else themeManger.changeTheme(Theme.defDark)
-
-                    }) {
-                        Text(text = "Change Theme")
-                    }
+//                    Button(onClick = {
+//                        if (theme.isDark)
+//                            themeManger.changeTheme(Theme.defLight)
+//                        else themeManger.changeTheme(Theme.defDark)
+//
+//                    }) {
+//                        Text(text = "Change Theme")
+//                    }
                 }
             }
 

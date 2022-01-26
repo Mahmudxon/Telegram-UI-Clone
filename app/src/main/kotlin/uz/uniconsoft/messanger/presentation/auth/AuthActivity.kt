@@ -5,7 +5,12 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
+import uz.uniconsoft.messanger.presentation.auth.phone.PhoneInputView
+import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
 
@@ -27,7 +34,10 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val defTheme = if (isSystemInDarkTheme()) Theme.defDark else Theme.defLight
+            themeManger.changeTheme(defTheme)
             val theme = themeManger.currentTheme.value
             val boxModifier = if (getDeviceType() == Device.Type.Tablet)
                 Modifier
@@ -58,7 +68,10 @@ class AuthActivity : AppCompatActivity() {
                         modifier = boxModifier
                     )
                     {
-                        PhoneInputView(theme = theme, getDeviceType() == Device.Type.Phone)
+                        PhoneInputView(
+                            theme = theme,
+                            needPaddingStatusBar = (getDeviceType() == Device.Type.Phone)
+                        )
                     }
                 }
             }
