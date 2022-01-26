@@ -14,22 +14,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.presentation.theme.Colors
+import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun PhoneInputView(colors: Colors) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
+
+    val actionbarModifier =
+    if (needPaddingStatusBar)
+        Modifier
+            .background(theme.appbarBackgroundColor)
+            .fillMaxWidth()
+            .height(80.dp)
+            .padding(top = 24.dp)
+    else Modifier
+        .background(theme.appbarBackgroundColor)
+        .fillMaxWidth()
+        .height(56.dp)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(theme.contentBackgroundColor)
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(colors.appbarBackgroundColor),
+            modifier = actionbarModifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = stringResource(id = R.string.YourPhone),
                 fontSize = 18.sp,
-                color = colors.appbarTextColor,
+                color = theme.appbarTextColor,
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 16.dp)
@@ -38,7 +52,7 @@ fun PhoneInputView(colors: Colors) {
                 onClick = {},
                 modifier = Modifier
                     .fillMaxHeight(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = colors.appbarBackgroundColor)
+                colors = ButtonDefaults.buttonColors(backgroundColor = theme.appbarBackgroundColor)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_baseline_done_24),
@@ -46,7 +60,8 @@ fun PhoneInputView(colors: Colors) {
                     modifier = Modifier.fillMaxHeight()
                 )
             }
-
         }
+
+
     }
 }

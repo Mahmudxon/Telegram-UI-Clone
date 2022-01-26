@@ -2,10 +2,6 @@ package uz.uniconsoft.messanger.presentation.theme
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,7 +9,7 @@ import uz.uniconsoft.messanger.R
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class Colors(
+data class Theme(
     val id: String,
     val name: String,
     // Background
@@ -22,7 +18,7 @@ data class Colors(
     val appbarBackgroundColor: Color,
     val chatBackgroundColor: Color,
     @DrawableRes
-    val chatBackground: Int? = null,
+    val chatBackground: Int,
     val ownChatBackgroundColor: Color,
     val partnerChatBackgroundColor: Color,
 
@@ -51,8 +47,8 @@ class ThemeManger @Inject constructor(
     @ApplicationContext ctx: Context,
 ) {
     private val themes = arrayListOf(
-        Colors(
-            id = Colors.defLight,
+        Theme(
+            id = Theme.defLight,
             name = "Light",
             contentBackgroundColor = Color.White,
             windowBackground = Color(0xFFDEE2E7),
@@ -73,14 +69,14 @@ class ThemeManger @Inject constructor(
             chatOwnCaption = Color(0xFF62AC55),
             isDark = false
         ),
-        Colors(
-            id = Colors.defDark,
+        Theme(
+            id = Theme.defDark,
             name = "Dark",
             contentBackgroundColor = Color(0xFF222B34),
             windowBackground = Color(0xFFDEE2E7),
             appbarBackgroundColor = Color(0xFF517DA2),
             chatBackgroundColor = Color.Black,
-            chatBackground = R.drawable.chat_background_light,
+            chatBackground = R.drawable.chat_background_dark,
             ownChatBackgroundColor = Color(0xFFEFFEDD),
             partnerChatBackgroundColor = Color.White,
             primaryTextColor = Color(0xFF222222),
@@ -112,35 +108,4 @@ class ThemeManger @Inject constructor(
         }
     }
 
-}
-
-private val DarkColorPalette = darkColors(
-    primary = Blue200,
-    primaryVariant = Blue700,
-    secondary = Teal200
-)
-
-private val LightColorPalette = lightColors(
-    primary = Blue500,
-    primaryVariant = Blue700,
-    secondary = Blue200
-)
-
-@Composable
-fun AppTheme(
-    theme: Colors,
-    content: @Composable() () -> Unit
-) {
-    val colors = if (theme.isDark) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
 }

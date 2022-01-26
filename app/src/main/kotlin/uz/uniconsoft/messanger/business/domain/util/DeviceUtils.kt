@@ -49,13 +49,4 @@ fun Context.getStatusBarHeight(): Int {
 fun Context.getDeviceType(): String =
     getString(R.string._device)
 
-
-fun Modifier.setStatusBarPadding(context: Context): Modifier {
-    val hPx = context.getStatusBarHeight().toFloat()
-    val hDp = context.dpFromPx(hPx).toInt()
-    padding(top = hDp.dp)
-
-    return this
-}
-
 fun Context.getScreenOrientation() = getString(R.string._screenOrientation)

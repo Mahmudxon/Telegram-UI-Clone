@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.StyledText
 import uz.uniconsoft.messanger.business.domain.util.replaceTags
 import uz.uniconsoft.messanger.presentation.theme.Blue200
+import uz.uniconsoft.messanger.presentation.theme.Blue500
 
 @ExperimentalPagerApi
 @Composable
@@ -91,29 +93,6 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
                 painter = painterResource(id = icons[pagerState.currentPage]),
                 contentDescription = ""
             )
-//            var isPlaying by remember {
-//                mutableStateOf(false)
-//            }
-//
-//            LaunchedEffect(pagerState) {
-//                isPlaying = true
-//            }
-//
-//            val composition by rememberLottieComposition(
-//                LottieCompositionSpec.RawRes(icons[pagerState.currentPage])
-//            )
-//            val progress by animateLottieCompositionAsState(
-//                composition = composition,
-//                isPlaying = isPlaying
-//            )
-//            LottieAnimation(
-//                composition,
-//                progress,
-//                modifier = Modifier
-//                    .padding(16.dp)
-//                    .height(90.dp)
-//                    .width(90.dp)
-//            )
         }
         Column(
             modifier = Modifier
@@ -143,7 +122,8 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
                 onClick = onclick, modifier = Modifier
                     .height(40.dp)
                     .padding(0.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(Blue500)
             )
             {
                 Box(
