@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,8 @@ import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 @ExperimentalPagerApi
 class IntroActivity : AppCompatActivity() {
@@ -119,7 +123,7 @@ class IntroActivity : AppCompatActivity() {
                                         AuthActivity::class.java
                                     )
                                 )
-                                // finish()
+                                 finish()
                             },
                             icons = icons.asList()
                         )

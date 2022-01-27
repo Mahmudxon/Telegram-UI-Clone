@@ -126,7 +126,7 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean, navController: N
                             else "+${it.replace("+", "")}"
                     },
                     modifier = Modifier
-                        .width(70.dp)
+                        .width(90.dp)
                         .background(Color.Transparent),
                     colors = colors,
                     keyboardOptions = KeyboardOptions(

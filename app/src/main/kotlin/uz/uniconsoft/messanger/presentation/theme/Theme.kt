@@ -2,6 +2,11 @@ package uz.uniconsoft.messanger.presentation.theme
 
 import android.content.Context
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -108,4 +113,45 @@ class ThemeManger @Inject constructor(
         }
     }
 
+}
+
+
+private val DarkColorPalette = darkColors(
+    primary = Blue200,
+    primaryVariant = Blue700,
+    secondary = Teal200
+)
+
+private val LightColorPalette = lightColors(
+    primary = Blue500,
+    primaryVariant = Blue700,
+    secondary = Blue200
+
+    /* Other default colors to override
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    */
+)
+
+@Composable
+fun TelegramCloneTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
 }
