@@ -19,8 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
-import uz.uniconsoft.messanger.presentation.main.Router
 import uz.uniconsoft.messanger.R
+import uz.uniconsoft.messanger.presentation.main.Router
 import uz.uniconsoft.messanger.presentation.main.Routes
 
 @Composable
@@ -69,12 +69,12 @@ fun DrawerHeader() {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(156.dp)
+            .height(180.dp)
             .background(color = MaterialTheme.colors.primary)
     ) {
         Column(
             verticalArrangement = Arrangement.Bottom, modifier = Modifier
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 40.dp, bottom = 16.dp)
                 .fillMaxHeight()
         ) {
             GlideImage(

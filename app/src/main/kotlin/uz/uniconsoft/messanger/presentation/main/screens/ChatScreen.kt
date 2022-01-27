@@ -27,9 +27,11 @@ import uz.uniconsoft.messanger.business.domain.util.Chat
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.presentation.component.AppDrawer
 import uz.uniconsoft.messanger.presentation.main.Routes
+import uz.uniconsoft.messanger.presentation.theme.BreakLine
+import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun ChatScreen(navController: NavHostController) {
+fun ChatScreen(navController: NavHostController, theme: Theme) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
@@ -37,34 +39,57 @@ fun ChatScreen(navController: NavHostController) {
             TopAppBar(
                 title = { Text(text = "Telegram") },
                 actions = { Icon(Icons.Default.Search, contentDescription = null) },
-                navigationIcon = { IconButton(onClick = {
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.open()
+                navigationIcon = {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    }) {
+                        Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                     }
-                }) {
-                    Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-                } }
+                },
+                modifier = Modifier.padding(top = 25.dp),
+                backgroundColor = theme.appbarBackgroundColor,
+                contentColor = theme.appbarTextColor
             )
         },
-        drawerContent = { AppDrawer() },
+        drawerContent = {
+            AppDrawer()
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ }) {
                 Icon(Icons.Default.Edit, contentDescription = null, tint = Color.White)
             }
         },
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
+        backgroundColor = theme.appbarBackgroundColor,
     ) {
-        ChatList(navController)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(theme.windowBackground)
+        ) {
+            ChatList(navController, theme = theme)
+        }
+
     }
 }
 
 @Composable
-fun ChatList(navController: NavHostController) {
+fun ChatList(navController: NavHostController, theme: Theme) {
     val listChat = DataDummy.listChat
-    LazyColumn {
-        items(listChat.size) { index -> ChatItem(listChat[index], onClick = {
-            navController.navigate(Routes.ChatDetail.route + "/$index")
-        }) }
+    LazyColumn(modifier = Modifier.background(theme.contentBackgroundColor)) {
+        items(listChat.size) { index ->
+            ChatItem(listChat[index], onClick = {
+                navController.navigate(Routes.ChatDetail.route + "/$index")
+            })
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(theme.windowBackground)
+            )
+        }
     }
 }
 
@@ -84,7 +109,8 @@ fun ChatItem(chat: Chat, onClick: () -> Unit) {
         Column(
             Modifier
                 .padding(horizontal = 14.dp)
-                .weight(7f)) {
+                .weight(7f)
+        ) {
             Text(chat.name, fontWeight = FontWeight.SemiBold, fontSize = 17.sp)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
@@ -106,7 +132,7 @@ fun ChatItem(chat: Chat, onClick: () -> Unit) {
                     .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
                     .padding(4.dp),
 
-            )
+                )
         }
     }
 }
