@@ -32,6 +32,7 @@ import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.presentation.component.PeerBubble
 import uz.uniconsoft.messanger.presentation.component.UserBubble
 import uz.uniconsoft.messanger.presentation.main.Router
+import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.BottomSheetShapes
 
 @ExperimentalFoundationApi
@@ -45,19 +46,20 @@ fun ChatDetailScreen(index: Int) {
         sheetState = bottomState,
         sheetContent = { ChatDetailBottomSheet() },
         sheetShape = BottomSheetShapes.medium,
+        sheetBackgroundColor = Blue500,
         content = {
             Scaffold(
                 topBar = { ChatDetailAppBar(index) },
                 backgroundColor = Color(0xffC7D9E9),
                 bottomBar = { ChatDetailBottomBar(bottomState) },
-                content = { ChatDetailBody() }
+                content = { ChatDetailBody() },
             )
         }
     )
 }
 
 @Composable
-private fun ChatDetailAppBar(index: Int ) {
+private fun ChatDetailAppBar(index: Int) {
 
     val chat = DataDummy.listChat[index]
     val router = Router.current
@@ -91,6 +93,7 @@ private fun ChatDetailAppBar(index: Int ) {
         actions = {
             Icon(Icons.Default.MoreVert, contentDescription = null)
         },
+        backgroundColor = Blue500
     )
 }
 
@@ -163,13 +166,14 @@ private fun ChatDetailBottomBar(bottomSheetState: ModalBottomSheetState) {
 private fun ChatDetailBottomSheet() {
     Column(Modifier.padding(vertical = 16.dp, horizontal = 4.dp)) {
 
-        Box(modifier = Modifier
-            .height(4.dp)
-            .width(24.dp)
-            .align(Alignment.CenterHorizontally)
-            .background(color = Color.Gray, shape = RoundedCornerShape(4.dp))
+        Box(
+            modifier = Modifier
+                .height(4.dp)
+                .width(24.dp)
+                .align(Alignment.CenterHorizontally)
+                .background(color = Color.Gray, shape = RoundedCornerShape(4.dp))
         )
-        
+
         Spacer(modifier = Modifier.height(4.dp))
 
         LazyVerticalGrid(
@@ -187,7 +191,8 @@ private fun ChatDetailBottomSheet() {
         Row(
             Modifier
                 .padding(top = 8.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+        ) {
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
