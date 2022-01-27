@@ -17,13 +17,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.BreakLine
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
+fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean, navController: NavController) {
 
     var code by remember { mutableStateOf("+") }
     var phone by remember { mutableStateOf("") }
@@ -156,7 +157,7 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
             }
 
             Text(
-                text = stringResource(id = R.string.YourCode),
+                text = stringResource(id = R.string.StartText),
                 fontSize = 14.sp,
                 color = theme.captionColor,
                 modifier = Modifier
@@ -166,20 +167,14 @@ fun PhoneInputView(theme: Theme, needPaddingStatusBar: Boolean) {
 
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate("code")
+                },
                 backgroundColor = Blue500,
                 contentColor = Color.White
             ) {
                 Icon(Icons.Outlined.NavigateNext, "")
             }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(theme.contentBackgroundColor),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
         }
     }
 }

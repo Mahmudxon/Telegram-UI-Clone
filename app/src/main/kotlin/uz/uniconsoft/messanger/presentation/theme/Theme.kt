@@ -86,7 +86,7 @@ class ThemeManger @Inject constructor(
             titleTextColor = Blue500,
             appbarTextColor = Color.White,
             appbarCaptionColor = Color(0xFFD2E9FB),
-            chatTextColor = Color.Black,
+            chatTextColor = Color.White,
             chatCaption = Color(0xFFA1AAB3),
             chatOwnCaption = Color(0xFF62AC55),
             isDark = true
