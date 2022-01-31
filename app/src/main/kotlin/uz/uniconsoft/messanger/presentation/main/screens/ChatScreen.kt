@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +26,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.Chat
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
+import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.component.AppDrawer
 import uz.uniconsoft.messanger.presentation.main.Routes
 import uz.uniconsoft.messanger.presentation.theme.BreakLine
@@ -48,7 +50,7 @@ fun ChatScreen(navController: NavHostController, theme: Theme) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                     }
                 },
-                modifier = Modifier.padding(top = 25.dp),
+                modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
                 backgroundColor = theme.appbarBackgroundColor,
                 contentColor = theme.appbarTextColor
             )

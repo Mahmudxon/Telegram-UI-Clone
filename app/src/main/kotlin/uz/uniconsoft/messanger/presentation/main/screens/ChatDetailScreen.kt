@@ -23,12 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
+import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.component.PeerBubble
 import uz.uniconsoft.messanger.presentation.component.UserBubble
 import uz.uniconsoft.messanger.presentation.main.Router
@@ -54,7 +56,8 @@ fun ChatDetailScreen(index: Int) {
                 bottomBar = { ChatDetailBottomBar(bottomState) },
                 content = { ChatDetailBody() },
             )
-        }
+        },
+        modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
     )
 }
 
@@ -100,7 +103,6 @@ private fun ChatDetailAppBar(index: Int) {
 @Composable
 private fun ChatDetailBody() {
     val listMessage = DataDummy.listMessage
-
     LazyColumn {
         items(listMessage.size) { index ->
             Spacer(modifier = Modifier.height(8.dp))

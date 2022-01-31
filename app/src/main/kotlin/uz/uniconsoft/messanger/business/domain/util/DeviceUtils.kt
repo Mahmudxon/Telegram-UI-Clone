@@ -2,10 +2,11 @@ package uz.uniconsoft.messanger.business.domain.util
 
 import android.content.Context
 import android.content.res.Resources
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
+import android.util.TypedValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import uz.uniconsoft.messanger.R
+
 
 object Device {
 
@@ -50,3 +51,20 @@ fun Context.getDeviceType(): String =
     getString(R.string._device)
 
 fun Context.getScreenOrientation() = getString(R.string._screenOrientation)
+
+fun Context.getStatusBarHeightInDp(): Dp {
+    var result = 0
+    val resourceId = resources.getIdentifier(
+        "status_bar_height", "dimen", "android"
+    )
+    if (resourceId > 0) {
+        result = getResourceValue(resourceId)
+    }
+    return result.dp
+}
+
+fun Context.getResourceValue(resId: Int): Int {
+    val value = TypedValue()
+    resources.getValue(resId, value, true)
+    return TypedValue.complexToFloat(value.data).toInt()
+}

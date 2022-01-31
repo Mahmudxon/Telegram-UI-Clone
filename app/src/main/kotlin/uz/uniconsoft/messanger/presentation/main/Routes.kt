@@ -1,8 +1,10 @@
 package uz.uniconsoft.messanger.presentation.main
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.NavHostController
 
+@SuppressLint("CompositionLocalNaming")
 val Router = compositionLocalOf<NavHostController> { error("No active user found!") }
 
 

@@ -16,17 +16,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
+import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.main.Router
+import uz.uniconsoft.messanger.presentation.theme.Blue500
 
 @Composable
 fun SettingScreen() {
     Scaffold(
         topBar = { SettingTopBar() },
         content = { SettingBody() },
+        backgroundColor = Blue500
     )
 }
 
@@ -67,7 +71,8 @@ fun SettingTopBar() {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(Icons.Default.MoreVert, contentDescription = null)
             }
-        }
+        },
+        modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
     )
 }
 
