@@ -9,7 +9,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "uz.agat.trading"
+        applicationId "uz.uniconsoft.messanger"
         minSdk 21
         targetSdk 31
         versionCode 1

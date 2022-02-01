@@ -22,12 +22,13 @@ import com.skydoves.landscapist.glide.GlideImage
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.presentation.main.Router
 import uz.uniconsoft.messanger.presentation.main.Routes
+import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun AppDrawer() {
+fun AppDrawer(theme: Theme) {
     val router = Router.current
     Column {
-        DrawerHeader()
+        DrawerHeader(theme = theme)
 
         DrawerMenuItem(
             icon = R.drawable.ic_people,
@@ -65,16 +66,16 @@ fun AppDrawer() {
 }
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(theme: Theme) {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(180.dp)
-            .background(color = MaterialTheme.colors.primary)
+            .height(168.dp)
+            .background(color = theme.appbarBackgroundColor)
     ) {
         Column(
             verticalArrangement = Arrangement.Bottom, modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 40.dp, bottom = 16.dp)
+                .padding(16.dp)
                 .fillMaxHeight()
         ) {
             GlideImage(
@@ -105,6 +106,7 @@ private fun DrawerMenuItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .fillMaxWidth()
             .padding(16.dp)
             .clickable { onClick() }
     ) {
@@ -119,6 +121,5 @@ private fun DrawerMenuItem(
             text = text,
             fontWeight = FontWeight.Medium
         )
-
     }
 }

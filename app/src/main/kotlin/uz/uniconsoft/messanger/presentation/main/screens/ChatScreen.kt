@@ -29,11 +29,10 @@ import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.component.AppDrawer
 import uz.uniconsoft.messanger.presentation.main.Routes
-import uz.uniconsoft.messanger.presentation.theme.BreakLine
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun ChatScreen(navController: NavHostController, theme: Theme) {
+fun ChatScreen(theme: Theme, navController: NavHostController? = null) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
@@ -50,13 +49,12 @@ fun ChatScreen(navController: NavHostController, theme: Theme) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                     }
                 },
-                modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
                 backgroundColor = theme.appbarBackgroundColor,
                 contentColor = theme.appbarTextColor
             )
         },
         drawerContent = {
-            AppDrawer()
+            AppDrawer(theme = theme)
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ }) {
@@ -78,12 +76,12 @@ fun ChatScreen(navController: NavHostController, theme: Theme) {
 }
 
 @Composable
-fun ChatList(navController: NavHostController, theme: Theme) {
+fun ChatList(navController: NavHostController?, theme: Theme) {
     val listChat = DataDummy.listChat
     LazyColumn(modifier = Modifier.background(theme.contentBackgroundColor)) {
         items(listChat.size) { index ->
             ChatItem(listChat[index], onClick = {
-                navController.navigate(Routes.ChatDetail.route + "/$index")
+                navController?.navigate(Routes.ChatDetail.route + "/$index")
             })
             Spacer(
                 modifier = Modifier
@@ -99,6 +97,7 @@ fun ChatList(navController: NavHostController, theme: Theme) {
 fun ChatItem(chat: Chat, onClick: () -> Unit) {
     Row(
         Modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp)
             .clickable { onClick() }) {
         GlideImage(
@@ -133,7 +132,6 @@ fun ChatItem(chat: Chat, onClick: () -> Unit) {
                 modifier = Modifier
                     .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
                     .padding(4.dp),
-
                 )
         }
     }

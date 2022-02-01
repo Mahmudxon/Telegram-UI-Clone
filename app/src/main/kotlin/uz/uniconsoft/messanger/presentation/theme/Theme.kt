@@ -58,7 +58,7 @@ class ThemeManger @Inject constructor(
             contentBackgroundColor = Color.White,
             windowBackground = Color(0xFFDEE2E7),
             appbarBackgroundColor = Color(0xFF517DA2),
-            chatBackgroundColor = Color(0xFFCAD4B1),
+            chatBackgroundColor = Color(0xffC7D9E9),
             chatBackground = R.drawable.chat_background_light,
             ownChatBackgroundColor = Color(0xFFEFFEDD),
             partnerChatBackgroundColor = Color.White,

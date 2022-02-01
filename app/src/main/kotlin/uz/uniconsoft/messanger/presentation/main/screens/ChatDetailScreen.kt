@@ -23,24 +23,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
-import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.component.PeerBubble
 import uz.uniconsoft.messanger.presentation.component.UserBubble
 import uz.uniconsoft.messanger.presentation.main.Router
-import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.BottomSheetShapes
+import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ChatDetailScreen(index: Int) {
+fun ChatDetailScreen(index: Int, theme: Theme) {
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -48,21 +46,19 @@ fun ChatDetailScreen(index: Int) {
         sheetState = bottomState,
         sheetContent = { ChatDetailBottomSheet() },
         sheetShape = BottomSheetShapes.medium,
-        sheetBackgroundColor = Blue500,
         content = {
             Scaffold(
-                topBar = { ChatDetailAppBar(index) },
-                backgroundColor = Color(0xffC7D9E9),
+                topBar = { ChatDetailAppBar(index, theme = theme) },
+                backgroundColor = theme.chatBackgroundColor,
                 bottomBar = { ChatDetailBottomBar(bottomState) },
                 content = { ChatDetailBody() },
             )
-        },
-        modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
+        }
     )
 }
 
 @Composable
-private fun ChatDetailAppBar(index: Int) {
+private fun ChatDetailAppBar(index: Int, theme: Theme) {
 
     val chat = DataDummy.listChat[index]
     val router = Router.current
@@ -96,7 +92,8 @@ private fun ChatDetailAppBar(index: Int) {
         actions = {
             Icon(Icons.Default.MoreVert, contentDescription = null)
         },
-        backgroundColor = Blue500
+        backgroundColor = theme.appbarBackgroundColor,
+        contentColor = theme.appbarTextColor
     )
 }
 

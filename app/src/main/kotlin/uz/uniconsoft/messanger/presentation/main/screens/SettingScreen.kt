@@ -24,18 +24,19 @@ import com.skydoves.landscapist.glide.GlideImage
 import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.main.Router
 import uz.uniconsoft.messanger.presentation.theme.Blue500
+import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun SettingScreen() {
+fun SettingScreen(theme: Theme) {
     Scaffold(
-        topBar = { SettingTopBar() },
+        topBar = { SettingTopBar(theme = theme) },
         content = { SettingBody() },
         backgroundColor = Blue500
     )
 }
 
 @Composable
-fun SettingTopBar() {
+fun SettingTopBar(theme: Theme) {
     val router = Router.current
     TopAppBar(
         navigationIcon = {
@@ -72,7 +73,8 @@ fun SettingTopBar() {
                 Icon(Icons.Default.MoreVert, contentDescription = null)
             }
         },
-        modifier = Modifier.padding(top = LocalContext.current.getStatusBarHeightInDp()),
+        backgroundColor = theme.appbarBackgroundColor,
+        contentColor = theme.appbarTextColor
     )
 }
 
