@@ -1,5 +1,6 @@
 package uz.uniconsoft.messanger.presentation.main.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,20 +26,33 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.Chat
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
-import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.component.AppDrawer
 import uz.uniconsoft.messanger.presentation.main.Routes
+import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
 fun ChatScreen(theme: Theme, navController: NavHostController? = null) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
+    if (scaffoldState.drawerState.isOpen) {
+        BackHandler {
+            coroutineScope.launch {
+                scaffoldState.drawerState.close()
+            }
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Telegram") },
-                actions = { Icon(Icons.Default.Search, contentDescription = null) },
+                actions = {
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = {
                         coroutineScope.launch {
@@ -57,12 +70,14 @@ fun ChatScreen(theme: Theme, navController: NavHostController? = null) {
             AppDrawer(theme = theme)
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Default.Edit, contentDescription = null, tint = Color.White)
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                backgroundColor = Blue500
+            ) {
+                Icon(Icons.Default.Edit, contentDescription = null, tint = theme.appbarTextColor)
             }
         },
         scaffoldState = scaffoldState,
-        backgroundColor = theme.appbarBackgroundColor,
     ) {
         Column(
             modifier = Modifier
@@ -132,7 +147,7 @@ fun ChatItem(chat: Chat, onClick: () -> Unit) {
                 modifier = Modifier
                     .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
                     .padding(4.dp),
-                )
+            )
         }
     }
 }

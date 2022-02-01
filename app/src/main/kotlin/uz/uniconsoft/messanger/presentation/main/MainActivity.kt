@@ -5,10 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -17,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.statusBarsPadding
 import dagger.hilt.android.AndroidEntryPoint
-import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.main.screens.ChatDetailScreen
 import uz.uniconsoft.messanger.presentation.main.screens.ChatScreen
 import uz.uniconsoft.messanger.presentation.main.screens.SettingScreen
@@ -39,17 +39,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TelegramCloneTheme {
-                val theme = themeManger.currentTheme.value
-                Column(
-                    modifier = Modifier
-                        .background(theme.appbarBackgroundColor)
-                        .padding(top = getStatusBarHeightInDp())
-                ) {
-                    Surface(color = theme.windowBackground) {
+                ProvideWindowInsets {
+                    val theme = themeManger.currentTheme.value
+                    Box(
+                        modifier = Modifier
+                            .background(theme.appbarBackgroundColor)
+                            .statusBarsPadding()
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .background(theme.windowBackground)
+                                .navigationBarsWithImePadding(),
+                        ) {
+                            Surface(color = theme.windowBackground) {
 
-                        val navController = rememberNavController()
-                        CompositionLocalProvider(Router provides navController) {
-                            MainScreen(theme = theme)
+                                val navController = rememberNavController()
+                                CompositionLocalProvider(Router provides navController) {
+                                    MainScreen(theme = theme)
+                                }
+                            }
                         }
                     }
                 }
@@ -65,49 +73,20 @@ fun MainScreen(theme: Theme) {
     val navController = Router.current
     NavHost(navController = navController, startDestination = Routes.Chat.route) {
 
-        // First route : Chat
         composable(Routes.Chat.route) {
 
-            // Lay down the Home Composable
-            // and pass the navController
             ChatScreen(navController = navController, theme = theme)
         }
 
         composable(Routes.Setting.route) {
 
-            // Lay down the Home Composable
-            // and pass the navController
             SettingScreen(theme = theme)
         }
 
-        // Another Route : Chat detail
         composable(Routes.ChatDetail.route + "/{id}") {
             val id = it.arguments?.getInt("id")
 
             ChatDetailScreen(index = id ?: 0, theme = theme)
-        }
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@Composable
-fun MainScreenTabletLand(theme: Theme) {
-    Row {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(3f)
-        ) {
-            ChatScreen(theme = theme)
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(5f)
-                .background(theme.appbarBackgroundColor)
-        ) {
-            ChatDetailScreen(index = 0, theme = theme)
         }
     }
 }

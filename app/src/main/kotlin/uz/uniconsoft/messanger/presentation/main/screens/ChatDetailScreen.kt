@@ -74,12 +74,16 @@ private fun ChatDetailAppBar(index: Int, theme: Theme) {
                     contentScale = ContentScale.Crop
                 )
                 Column(Modifier.padding(start = 16.dp)) {
-                    Text(text = chat.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = chat.name, fontSize = 16.sp, fontWeight = FontWeight.Bold,
+                        color = theme.appbarTextColor
+                    )
                     Spacer(modifier = Modifier.height(1.dp))
                     Text(
                         text = "Last screen recently",
                         fontSize = 13.sp,
-                        fontWeight = FontWeight.Light
+                        fontWeight = FontWeight.Light,
+                        color = theme.appbarCaptionColor
                     )
                 }
             }
