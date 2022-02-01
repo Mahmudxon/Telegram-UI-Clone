@@ -51,13 +51,10 @@ class MainActivity : AppCompatActivity() {
                                 .background(theme.windowBackground)
                                 .navigationBarsWithImePadding(),
                         ) {
-                            Surface(color = theme.windowBackground) {
-
                                 val navController = rememberNavController()
                                 CompositionLocalProvider(Router provides navController) {
                                     MainScreen(theme = theme)
                                 }
-                            }
                         }
                     }
                 }
@@ -74,18 +71,15 @@ fun MainScreen(theme: Theme) {
     NavHost(navController = navController, startDestination = Routes.Chat.route) {
 
         composable(Routes.Chat.route) {
-
             ChatScreen(navController = navController, theme = theme)
         }
 
         composable(Routes.Setting.route) {
-
             SettingScreen(theme = theme)
         }
 
         composable(Routes.ChatDetail.route + "/{id}") {
             val id = it.arguments?.getInt("id")
-
             ChatDetailScreen(index = id ?: 0, theme = theme)
         }
     }
