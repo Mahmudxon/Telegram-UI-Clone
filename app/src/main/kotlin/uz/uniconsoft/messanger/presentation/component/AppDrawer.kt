@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +26,11 @@ import uz.uniconsoft.messanger.presentation.theme.Theme
 @Composable
 fun AppDrawer(theme: Theme) {
     val router = Router.current
-    Column {
+    Column(
+        modifier = Modifier
+            .background(theme.menuBackColor)
+            .fillMaxHeight()
+    ) {
         DrawerHeader(theme = theme)
 
         DrawerMenuItem(

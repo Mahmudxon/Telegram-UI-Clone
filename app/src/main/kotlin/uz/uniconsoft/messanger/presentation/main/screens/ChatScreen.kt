@@ -83,6 +83,9 @@ fun ChatScreen(
             }
         },
         scaffoldState = scaffoldState,
+        drawerBackgroundColor = theme.menuBackColor,
+        drawerContentColor = theme.menuTextColor,
+        drawerScrimColor = theme.menuIconColor
     ) {
         Column(
             modifier = Modifier

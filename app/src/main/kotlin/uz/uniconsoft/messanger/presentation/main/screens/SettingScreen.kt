@@ -27,11 +27,12 @@ import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun SettingScreen(theme: Theme) {
+fun SettingScreen(theme: Theme, modifier: Modifier = Modifier) {
     Scaffold(
         topBar = { SettingTopBar(theme = theme) },
         content = { SettingBody() },
-        backgroundColor = Blue500
+        backgroundColor = theme.windowBackground,
+        modifier = modifier
     )
 }
 
@@ -81,7 +82,8 @@ fun SettingTopBar(theme: Theme) {
 
 @Composable
 fun SettingBody() {
-    Column(Modifier.background(color = Color.LightGray)) {
+    Column(Modifier.background(color = Color.LightGray),
+        ) {
         BodyAccount()
         Spacer(modifier = Modifier.height(8.dp))
         BodySetting()
