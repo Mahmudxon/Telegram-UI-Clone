@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +33,11 @@ import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
-fun ChatScreen(theme: Theme, navController: NavHostController? = null) {
+fun ChatScreen(
+    theme: Theme,
+    navController: NavHostController? = null,
+    index: MutableState<Int>? = null
+) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     if (scaffoldState.drawerState.isOpen) {
@@ -84,37 +89,40 @@ fun ChatScreen(theme: Theme, navController: NavHostController? = null) {
                 .fillMaxSize()
                 .background(theme.windowBackground)
         ) {
-            ChatList(navController, theme = theme)
+            ChatList(navController, theme = theme, checkedIndex = index)
         }
 
     }
 }
 
 @Composable
-fun ChatList(navController: NavHostController?, theme: Theme) {
+fun ChatList(navController: NavHostController?, theme: Theme, checkedIndex: MutableState<Int>?) {
     val listChat = DataDummy.listChat
     LazyColumn(modifier = Modifier.background(theme.contentBackgroundColor)) {
         items(listChat.size) { index ->
-            ChatItem(listChat[index], onClick = {
+            Column(Modifier.clickable {
                 navController?.navigate(Routes.ChatDetail.route + "/$index")
-            })
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(theme.windowBackground)
-            )
+                checkedIndex?.value = index
+            }) {
+                ChatItem(listChat[index])
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(theme.windowBackground)
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ChatItem(chat: Chat, onClick: () -> Unit) {
+fun ChatItem(chat: Chat) {
     Row(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp)
-            .clickable { onClick() }) {
+    ) {
         GlideImage(
             imageModel = chat.imageUrl,
             modifier = Modifier
