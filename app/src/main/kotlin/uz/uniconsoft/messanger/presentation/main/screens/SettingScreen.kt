@@ -1,6 +1,9 @@
 package uz.uniconsoft.messanger.presentation.main.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -16,14 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
-import uz.uniconsoft.messanger.business.domain.util.getStatusBarHeightInDp
 import uz.uniconsoft.messanger.presentation.main.Router
-import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable
@@ -82,8 +82,14 @@ fun SettingTopBar(theme: Theme) {
 
 @Composable
 fun SettingBody() {
-    Column(Modifier.background(color = Color.LightGray),
-        ) {
+    val scrollableState = rememberScrollableState(consumeScrollDelta = {
+        return@rememberScrollableState 0f
+    })
+    Column(
+        Modifier
+            .background(color = Color.LightGray)
+            .scrollable(state = scrollableState, orientation = Orientation.Vertical)
+    ) {
         BodyAccount()
         Spacer(modifier = Modifier.height(8.dp))
         BodySetting()

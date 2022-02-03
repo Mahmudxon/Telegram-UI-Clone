@@ -37,7 +37,7 @@ fun ChatScreen(
     theme: Theme,
     navController: NavHostController? = null,
     index: MutableState<Int>? = null,
-    scaffoldState : ScaffoldState
+    scaffoldState: ScaffoldState
 ) {
     val coroutineScope = rememberCoroutineScope()
     if (scaffoldState.drawerState.isOpen) {
