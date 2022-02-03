@@ -10,6 +10,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
@@ -83,13 +85,18 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MainScreen(theme: Theme, isTabletLandCape: Boolean) {
     val navController = Router.current
+    val scaffoldState = rememberScaffoldState()
     NavHost(navController = navController, startDestination = Routes.Chat.route) {
 
         composable(Routes.Chat.route) {
             if (isTabletLandCape)
-                ChatScreenTablet(theme = theme)
+                ChatScreenTablet(theme = theme, scaffoldState = scaffoldState)
             else
-                ChatScreen(navController = navController, theme = theme)
+                ChatScreen(
+                    navController = navController,
+                    theme = theme,
+                    scaffoldState = scaffoldState
+                )
         }
 
         if (isTabletLandCape)
@@ -99,6 +106,7 @@ fun MainScreen(theme: Theme, isTabletLandCape: Boolean) {
                         theme = theme, modifier = Modifier
                             .width(600.dp)
                             .height(600.dp)
+                            .background(theme.windowBackground)
                     )
                 }
             }
@@ -118,13 +126,13 @@ fun MainScreen(theme: Theme, isTabletLandCape: Boolean) {
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ChatScreenTablet(theme: Theme) {
+fun ChatScreenTablet(theme: Theme, scaffoldState: ScaffoldState) {
     Row {
         val index = remember {
             mutableStateOf(-1)
         }
         Column(modifier = Modifier.weight(3f)) {
-            ChatScreen(theme = theme, index = index)
+            ChatScreen(theme = theme, index = index, scaffoldState = scaffoldState)
         }
         Column(modifier = Modifier.weight(5f)) {
             Box {

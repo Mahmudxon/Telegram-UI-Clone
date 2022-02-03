@@ -36,9 +36,9 @@ import uz.uniconsoft.messanger.presentation.theme.Theme
 fun ChatScreen(
     theme: Theme,
     navController: NavHostController? = null,
-    index: MutableState<Int>? = null
+    index: MutableState<Int>? = null,
+    scaffoldState : ScaffoldState
 ) {
-    val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     if (scaffoldState.drawerState.isOpen) {
         BackHandler {
