@@ -1,6 +1,10 @@
 package uz.uniconsoft.messanger.presentation.intro
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -22,6 +26,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.placeholder
 import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.StyledText
 import uz.uniconsoft.messanger.business.domain.util.replaceTags
@@ -123,19 +130,39 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
                     .height(40.dp)
                     .padding(0.dp)
                     .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(Blue500)
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                contentPadding = PaddingValues(0.dp)
             )
             {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(5.dp))
+                        .clip(RoundedCornerShape(5.dp)),
+                    contentAlignment = Alignment.Center
                 )
                 {
+
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .placeholder(
+                                visible = true,
+                                highlight = PlaceholderHighlight.shimmer(
+                                    progressForMaxAlpha = 0.2f,
+                                    animationSpec = infiniteRepeatable(
+                                        animation = tween(
+                                            durationMillis = 2000,
+                                            delayMillis = 1000,
+                                            easing = FastOutSlowInEasing
+                                        )
+                                    )
+                                ), color = Blue500
+                            )
+                    )
+
                     Text(
                         text = stringResource(id = R.string.StartMessaging).uppercase(),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxSize(),
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 16.sp
