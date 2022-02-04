@@ -2,10 +2,11 @@ package uz.uniconsoft.messanger.presentation.main.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,7 +31,7 @@ import uz.uniconsoft.messanger.presentation.theme.Theme
 fun SettingScreen(theme: Theme, modifier: Modifier = Modifier) {
     Scaffold(
         topBar = { SettingTopBar(theme = theme) },
-        content = { SettingBody() },
+        content = { SettingBody(theme = theme) },
         backgroundColor = theme.windowBackground,
         modifier = modifier
     )
@@ -81,14 +82,13 @@ fun SettingTopBar(theme: Theme) {
 
 
 @Composable
-fun SettingBody() {
-    val scrollableState = rememberScrollableState(consumeScrollDelta = {
-        return@rememberScrollableState 0f
-    })
+fun SettingBody(theme: Theme) {
+    val scrollState = rememberScrollState()
     Column(
         Modifier
-            .background(color = Color.LightGray)
-            .scrollable(state = scrollableState, orientation = Orientation.Vertical)
+            .background(color = theme.windowBackground)
+            .verticalScroll(scrollState)
+            .fillMaxHeight()
     ) {
         BodyAccount()
         Spacer(modifier = Modifier.height(8.dp))

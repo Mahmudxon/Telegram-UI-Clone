@@ -12,4 +12,5 @@ sealed class Routes(val route: String) {
     object Chat : Routes("chat")
     object ChatDetail : Routes("chat/detail")
     object Setting : Routes("setting")
+    object Contact : Routes("contact")
 }

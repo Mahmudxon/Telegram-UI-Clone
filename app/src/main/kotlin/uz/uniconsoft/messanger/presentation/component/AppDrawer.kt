@@ -39,7 +39,10 @@ fun AppDrawer(theme: Theme) {
         )
         DrawerMenuItem(
             icon = R.drawable.ic_person,
-            text = "Contacts"
+            text = "Contacts",
+            onClick = {
+                router.navigate(Routes.Contact.route)
+            }
         )
         DrawerMenuItem(
             icon = R.drawable.ic_call,

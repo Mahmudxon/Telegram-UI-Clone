@@ -1,5 +1,6 @@
 package uz.uniconsoft.messanger.presentation.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +13,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -28,11 +26,13 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsPadding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.business.domain.util.getScreenOrientation
 import uz.uniconsoft.messanger.presentation.main.screens.ChatDetailScreen
 import uz.uniconsoft.messanger.presentation.main.screens.ChatScreen
+import uz.uniconsoft.messanger.presentation.main.screens.ContactScreen
 import uz.uniconsoft.messanger.presentation.main.screens.SettingScreen
 import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
@@ -109,16 +109,39 @@ fun MainScreen(theme: Theme, isTabletLandCape: Boolean) {
                             .background(theme.windowBackground)
                     )
                 }
+                CloseDrawer(scaffoldState = scaffoldState)
             }
         else
             composable(Routes.Setting.route) {
                 SettingScreen(theme = theme)
+                CloseDrawer(scaffoldState = scaffoldState)
             }
 
         composable(Routes.ChatDetail.route + "/{id}") {
             val id = it.arguments?.getInt("id")
             ChatDetailScreen(index = id ?: 0, theme = theme)
         }
+
+
+        if (isTabletLandCape)
+            dialog(Routes.Contact.route) {
+                Card {
+                    ContactScreen(
+                        theme = theme, modifier = Modifier
+                            .width(600.dp)
+                            .height(600.dp)
+                            .background(theme.windowBackground)
+                    )
+                }
+                CloseDrawer(scaffoldState = scaffoldState)
+            }
+        else
+            composable(Routes.Contact.route) {
+                ContactScreen(theme = theme)
+                CloseDrawer(scaffoldState = scaffoldState)
+            }
+
+
     }
 }
 
@@ -146,5 +169,15 @@ fun ChatScreenTablet(theme: Theme, scaffoldState: ScaffoldState) {
                     ChatDetailScreen(index = index.value, theme = theme)
             }
         }
+    }
+}
+
+
+@SuppressLint("CoroutineCreationDuringComposition")
+@Composable
+fun CloseDrawer(scaffoldState: ScaffoldState) {
+    val scope = rememberCoroutineScope()
+    scope.launch {
+        scaffoldState.drawerState.close()
     }
 }

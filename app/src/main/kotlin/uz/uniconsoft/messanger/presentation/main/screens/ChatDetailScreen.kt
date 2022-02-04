@@ -80,7 +80,7 @@ private fun ChatDetailAppBar(index: Int, theme: Theme) {
                     )
                     Spacer(modifier = Modifier.height(1.dp))
                     Text(
-                        text = "Last screen recently",
+                        text = "Last seen recently",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Light,
                         color = theme.appbarCaptionColor
