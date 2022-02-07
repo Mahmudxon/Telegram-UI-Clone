@@ -7,6 +7,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.ModeNight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,38 +38,45 @@ fun AppDrawer(theme: Theme) {
 
         DrawerMenuItem(
             icon = R.drawable.ic_people,
-            text = "New Group"
+            text = "New Group",
+            theme = theme
         )
         DrawerMenuItem(
             icon = R.drawable.ic_person,
             text = "Contacts",
             onClick = {
                 router.navigate(Routes.Contact.route)
-            }
+            },
+            theme = theme
         )
         DrawerMenuItem(
             icon = R.drawable.ic_call,
-            text = "Calls"
+            text = "Calls",
+            theme = theme
         )
         DrawerMenuItem(
             icon = R.drawable.ic_bookmark,
-            text = "Saved Messages"
+            text = "Saved Messages",
+            theme = theme
         )
         DrawerMenuItem(
             icon = R.drawable.ic_settings,
             text = "Settings",
             onClick = {
                 router.navigate(Routes.Setting.route)
-            }
+            },
+            theme = theme
         )
         Divider()
         DrawerMenuItem(
             icon = R.drawable.ic_person_add,
-            text = "Invite Friends"
+            text = "Invite Friends",
+            theme = theme
         )
         DrawerMenuItem(
             icon = R.drawable.ic_help,
-            text = "Telegram Features"
+            text = "Telegram Features",
+            theme = theme
         )
     }
 }
@@ -100,6 +110,20 @@ fun DrawerHeader(theme: Theme) {
                 fontSize = 14.sp
             )
         }
+
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(30.dp)
+        ) {
+            Icon(
+                imageVector = if (theme.isDark)
+                    Icons.Default.LightMode
+                else Icons.Default.ModeNight,
+                contentDescription = null,
+                tint = theme.appbarTextColor
+            )
+        }
     }
 }
 
@@ -107,25 +131,28 @@ fun DrawerHeader(theme: Theme) {
 private fun DrawerMenuItem(
     icon: Int,
     text: String,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    theme: Theme
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable { onClick() }
-    ) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = null,
-            tint = Color.Gray,
-            modifier = Modifier.size(28.dp)
-        )
-        Spacer(modifier = Modifier.width(28.dp))
-        Text(
-            text = text,
-            fontWeight = FontWeight.Medium
-        )
+    Column(modifier = Modifier.clickable { onClick() }) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = null,
+                tint = theme.menuIconColor,
+                modifier = Modifier.size(28.dp)
+            )
+            Spacer(modifier = Modifier.width(28.dp))
+            Text(
+                text = text,
+                fontWeight = FontWeight.Medium,
+                color = theme.menuTextColor
+            )
+        }
     }
 }
