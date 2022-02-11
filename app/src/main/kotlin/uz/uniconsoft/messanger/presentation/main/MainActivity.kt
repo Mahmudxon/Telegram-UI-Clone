@@ -37,6 +37,7 @@ import uz.uniconsoft.messanger.presentation.main.screens.ChatDetailScreen
 import uz.uniconsoft.messanger.presentation.main.screens.ChatScreen
 import uz.uniconsoft.messanger.presentation.main.screens.ContactScreen
 import uz.uniconsoft.messanger.presentation.main.screens.SettingScreen
+import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
@@ -61,28 +62,31 @@ class MainActivity : AppCompatActivity() {
             }
             val scaffoldState = rememberScaffoldState()
             val navController = rememberNavController()
-            CircularReveal(
-                targetState = systemTheme, animationSpec = tween(500)
-            ) { theme ->
-                uiController.setNavigationBarColor(theme.windowBackground)
-                ProvideWindowInsets {
+            ProvideWindowInsets {
+                CircularReveal(
+                    targetState = systemTheme,
+                    animationSpec = tween(durationMillis = 700)
+                ) { theme ->
                     Box(
                         modifier = Modifier
                             .background(theme.appbarBackgroundColor)
                             .statusBarsPadding()
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .background(theme.windowBackground)
-                                .navigationBarsWithImePadding(),
-                        ) {
-                            CompositionLocalProvider(Router provides navController) {
-                                MainScreen(
-                                    theme = theme,
-                                    isTabletLandCape = getDeviceType() == Device.Type.Tablet && getScreenOrientation() == Device.Screen.Orientation.Landscape,
-                                    scaffoldState = scaffoldState,
-                                    index = index
-                                )
+                        TelegramCloneTheme(theme.isDark) {
+                            uiController.setNavigationBarColor(theme.windowBackground)
+                            Column(
+                                modifier = Modifier
+                                    .background(theme.windowBackground)
+                                    .navigationBarsWithImePadding(),
+                            ) {
+                                CompositionLocalProvider(Router provides navController) {
+                                    MainScreen(
+                                        theme = theme,
+                                        isTabletLandCape = getDeviceType() == Device.Type.Tablet && getScreenOrientation() == Device.Screen.Orientation.Landscape,
+                                        scaffoldState = scaffoldState,
+                                        index = index
+                                    )
+                                }
                             }
                         }
                     }

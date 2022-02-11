@@ -17,8 +17,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Attachment
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.outlined.MicNone
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,7 +39,13 @@ import uz.uniconsoft.messanger.presentation.theme.Theme
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ChatDetailScreen(index: Int, theme: Theme) {
+fun ChatDetailScreen(
+    index: Int,
+    theme: Theme,
+    newMessage: MutableState<String> = remember {
+        mutableStateOf("")
+    }
+) {
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -52,7 +57,7 @@ fun ChatDetailScreen(index: Int, theme: Theme) {
             Scaffold(
                 topBar = { ChatDetailAppBar(index, theme = theme) },
                 backgroundColor = theme.chatBackgroundColor,
-                bottomBar = { ChatDetailBottomBar(bottomState) },
+                bottomBar = { ChatDetailBottomBar(bottomState, newMessage) },
                 content = { ChatDetailBody(theme) },
             )
         }
@@ -110,7 +115,8 @@ private fun ChatDetailBody(theme: Theme) {
         Image(
             painter = painterResource(id = theme.chatBackground),
             contentDescription = "chat background",
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.fillMaxSize()
         )
         LazyColumn {
             items(listMessage.size) { index ->
@@ -131,7 +137,10 @@ private fun ChatDetailBody(theme: Theme) {
 
 @ExperimentalMaterialApi
 @Composable
-private fun ChatDetailBottomBar(bottomSheetState: ModalBottomSheetState) {
+private fun ChatDetailBottomBar(
+    bottomSheetState: ModalBottomSheetState,
+    newMessage: MutableState<String>
+) {
     val coroutineScope = rememberCoroutineScope()
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -148,8 +157,10 @@ private fun ChatDetailBottomBar(bottomSheetState: ModalBottomSheetState) {
             modifier = Modifier.padding(8.dp)
         )
         BasicTextField(
-            value = "",
-            onValueChange = {},
+            value = newMessage.value,
+            onValueChange = {
+                newMessage.value = it
+            },
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp)
