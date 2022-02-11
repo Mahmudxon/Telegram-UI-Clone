@@ -39,7 +39,8 @@ data class Theme(
     val chatTextColor: Color,
     val chatCaption: Color,
     val chatOwnCaption: Color,
-    val isDark: Boolean
+    val isDark: Boolean,
+    val manager: ThemeManger
 ) {
     companion object {
         const val defLight = "light"
@@ -74,7 +75,8 @@ class ThemeManger @Inject constructor(
             chatTextColor = Color.Black,
             chatCaption = Color(0xFFA1AAB3),
             chatOwnCaption = Color(0xFF62AC55),
-            isDark = false
+            isDark = false,
+            manager = this
         ),
         Theme(
             id = Theme.defDark,
@@ -97,7 +99,8 @@ class ThemeManger @Inject constructor(
             chatTextColor = Color(0xffd6dade),
             chatCaption = Color(0xFF535e6a),
             chatOwnCaption = Color(0xFF535e6a),
-            isDark = true
+            isDark = true,
+            manager = this
         )
     )
 
@@ -105,6 +108,18 @@ class ThemeManger @Inject constructor(
 
     var currentTheme = mutableStateOf(themes[checkedIndex])
 
+
+    var lastLightTheme = themes[0]
+    var lastDarkTheme = themes[1]
+
+
+    fun toggle() {
+        if (currentTheme.value.isDark) {
+            currentTheme.value = lastLightTheme
+        } else {
+            currentTheme.value = lastDarkTheme
+        }
+    }
 
     fun changeTheme(id: String) {
         for (i in 0 until themes.size) {
@@ -129,15 +144,6 @@ private val LightColorPalette = lightColors(
     primary = Blue500,
     primaryVariant = Blue700,
     secondary = Blue200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable

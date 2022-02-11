@@ -121,7 +121,10 @@ fun DrawerHeader(theme: Theme) {
                     Icons.Default.LightMode
                 else Icons.Default.ModeNight,
                 contentDescription = null,
-                tint = theme.appbarTextColor
+                tint = theme.appbarTextColor,
+                modifier = Modifier.clickable {
+                    theme.manager.toggle()
+                }
             )
         }
     }

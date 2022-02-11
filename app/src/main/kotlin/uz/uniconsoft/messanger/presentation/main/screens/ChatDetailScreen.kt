@@ -1,6 +1,7 @@
 package uz.uniconsoft.messanger.presentation.main.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +53,7 @@ fun ChatDetailScreen(index: Int, theme: Theme) {
                 topBar = { ChatDetailAppBar(index, theme = theme) },
                 backgroundColor = theme.chatBackgroundColor,
                 bottomBar = { ChatDetailBottomBar(bottomState) },
-                content = { ChatDetailBody() },
+                content = { ChatDetailBody(theme) },
             )
         }
     )
@@ -102,20 +104,27 @@ private fun ChatDetailAppBar(index: Int, theme: Theme) {
 }
 
 @Composable
-private fun ChatDetailBody() {
+private fun ChatDetailBody(theme: Theme) {
     val listMessage = DataDummy.listMessage
-    LazyColumn {
-        items(listMessage.size) { index ->
-            Spacer(modifier = Modifier.height(8.dp))
-            if (listMessage[index].isPeer) {
-                PeerBubble(listMessage[index])
-            } else {
-                UserBubble(listMessage[index])
+    Box {
+        Image(
+            painter = painterResource(id = theme.chatBackground),
+            contentDescription = "chat background",
+            contentScale = ContentScale.FillWidth
+        )
+        LazyColumn {
+            items(listMessage.size) { index ->
+                Spacer(modifier = Modifier.height(8.dp))
+                if (listMessage[index].isPeer) {
+                    PeerBubble(listMessage[index])
+                } else {
+                    UserBubble(listMessage[index])
+                }
+                Spacer(modifier = Modifier.height(32.dp))
             }
-            Spacer(modifier = Modifier.height(32.dp))
-        }
-        item {
-            Spacer(modifier = Modifier.height(56.dp))
+            item {
+                Spacer(modifier = Modifier.height(56.dp))
+            }
         }
     }
 }
