@@ -113,12 +113,13 @@ fun MainScreen(
                     if (index.value >= 0)
                         ChatDetailScreen(index = index.value, theme = theme)
                 }
-            else
+            else {
                 ChatScreen(
                     navController = navController,
                     theme = theme,
                     scaffoldState = scaffoldState
                 )
+            }
         }
 
         if (isTabletLandCape)
@@ -144,7 +145,6 @@ fun MainScreen(
             ChatDetailScreen(index = id ?: 0, theme = theme)
         }
 
-
         if (isTabletLandCape)
             dialog(Routes.Contact.route) {
                 Card {
@@ -162,8 +162,6 @@ fun MainScreen(
                 ContactScreen(theme = theme)
                 CloseDrawer(scaffoldState = scaffoldState)
             }
-
-
     }
 }
 

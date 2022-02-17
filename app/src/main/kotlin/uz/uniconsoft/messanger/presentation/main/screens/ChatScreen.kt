@@ -197,14 +197,6 @@ fun ChatScreenToTablet(
                 AppDrawer(theme = theme)
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                backgroundColor = Blue500
-            ) {
-                Icon(Icons.Default.Edit, contentDescription = null, tint = theme.appbarTextColor)
-            }
-        },
         scaffoldState = scaffoldState,
         drawerShape = halfDrawerShape()
     ) {
@@ -214,33 +206,46 @@ fun ChatScreenToTablet(
                 .fillMaxSize()
                 .background(theme.windowBackground)
         ) {
-            Column(
+            Scaffold(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(3f)
-
-            ) {
-                TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.AppName)) },
-                    actions = {
-                        Icon(
-                            Icons.Default.Search,
-                            contentDescription = null,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            coroutineScope.launch {
-                                scaffoldState.drawerState.open()
+                    .weight(3f),
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = stringResource(id = R.string.AppName)) },
+                        actions = {
+                            Icon(
+                                Icons.Default.Search,
+                                contentDescription = null,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    scaffoldState.drawerState.open()
+                                }
+                            }) {
+                                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                             }
-                        }) {
-                            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-                        }
-                    },
-                    backgroundColor = theme.appbarBackgroundColor,
-                    contentColor = theme.appbarTextColor
-                )
+                        },
+                        backgroundColor = theme.appbarBackgroundColor,
+                        contentColor = theme.appbarTextColor
+                    )
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { /*TODO*/ },
+                        backgroundColor = Blue500
+                    ) {
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = null,
+                            tint = theme.appbarTextColor
+                        )
+                    }
+                }
+            ) {
                 ChatList(navController = null, theme = theme, checkedIndex = index)
             }
 

@@ -53,6 +53,42 @@ object DataDummy {
             imageUrl = "https://randomuser.me/api/portraits/men/9.jpg",
             newChatSize = 121
         ),
+        Chat(
+            id = 0,
+            name = "Kim dir",
+            time = "08:46",
+            date = "17 june",
+            lastMessage = "Oxirgi chatdagi xabar",
+            imageUrl = "https://randomuser.me/api/portraits/men/10.jpg",
+            newChatSize = 121
+        ),
+        Chat(
+            id = 0,
+            name = "Kim dir",
+            time = "08:46",
+            date = "17 june",
+            lastMessage = "Oxirgi chatdagi xabar",
+            imageUrl = "https://randomuser.me/api/portraits/men/5.jpg",
+            newChatSize = 121
+        ),
+        Chat(
+            id = 0,
+            name = "Kim dir",
+            time = "08:46",
+            date = "17 june",
+            lastMessage = "Oxirgi chatdagi xabar",
+            imageUrl = "https://randomuser.me/api/portraits/men/8.jpg",
+            newChatSize = 121
+        ),
+        Chat(
+            id = 0,
+            name = "Kim dir",
+            time = "08:46",
+            date = "17 june",
+            lastMessage = "Oxirgi chatdagi xabar",
+            imageUrl = "https://randomuser.me/api/portraits/men/9.jpg",
+            newChatSize = 121
+        ),
     )
 
     val listMessage = listOf(
