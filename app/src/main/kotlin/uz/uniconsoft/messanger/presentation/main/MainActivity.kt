@@ -33,10 +33,7 @@ import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.business.domain.util.getScreenOrientation
 import uz.uniconsoft.messanger.presentation.component.CircularReveal
-import uz.uniconsoft.messanger.presentation.main.screens.ChatDetailScreen
-import uz.uniconsoft.messanger.presentation.main.screens.ChatScreen
-import uz.uniconsoft.messanger.presentation.main.screens.ContactScreen
-import uz.uniconsoft.messanger.presentation.main.screens.SettingScreen
+import uz.uniconsoft.messanger.presentation.main.screens.*
 import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
@@ -111,7 +108,11 @@ fun MainScreen(
 
         composable(Routes.Chat.route) {
             if (isTabletLandCape)
-                ChatScreenTablet(theme = theme, scaffoldState = scaffoldState, index)
+                ChatScreenToTablet(theme = theme, scaffoldState = scaffoldState, index = index)
+                {
+                    if (index.value >= 0)
+                        ChatDetailScreen(index = index.value, theme = theme)
+                }
             else
                 ChatScreen(
                     navController = navController,
