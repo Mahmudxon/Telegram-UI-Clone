@@ -25,7 +25,9 @@ class Message(
     var forwardId: Long = 0L,
     var replyId: Long = 0L,
     var date: Long = 0L,
-    var attachment: List<Any>
+    var isDeleted : Boolean,
+    var editedTime : Long,
+    var attachment: List<Attachment>
 ) {
 
 

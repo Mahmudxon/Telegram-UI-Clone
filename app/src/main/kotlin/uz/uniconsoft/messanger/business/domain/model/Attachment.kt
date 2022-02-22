@@ -8,14 +8,6 @@ sealed class Attachment {
         var size: Long
     ) : Attachment()
 
-    /**
-     *  attachmentLocation = attachment?.location ?: ""
-    attachmentThumbnail = attachment?.thumbnail ?: ""
-    attachmentSize = attachment?.size?.toLong() ?: 0L
-    attachmentWHRatio = attachment?.whRatio?.toString() ?: ""
-    attachmentBlur = attachment?.blur?.toBase64() ?: ""
-    attachmentWHRatio = attachment?.whRatio?.toString() ?: ""
-     * */
     data class Photo(
         var location: String,
         var thumbnail: String,
@@ -23,4 +15,30 @@ sealed class Attachment {
         var blur: String,
         var ratio: String // w:h
     ) : Attachment()
+
+    data class Voice(
+        var location: String,
+        var size: Long,
+        var length: Long
+    ) : Attachment()
+
+    data class Music(
+        var name: String,
+        var artist: String? = null,
+        var size: Long,
+        var length: Long
+    ) : Attachment()
+
+    data class Contact(
+        var firstName: String,
+        var lastName: String,
+        var phone: String
+    ) : Attachment()
+
+    data class Location(
+        var name: String?,
+        var latitude: Double,
+        var longitude: Double
+    ) : Attachment()
+
 }
