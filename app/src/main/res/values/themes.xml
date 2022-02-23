@@ -18,6 +18,8 @@
         <!-- specify enter and exit transitions -->
         <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
         <item name="fontFamily">@font/roboto</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style>
 
     <style name="SlideAnimation.Activity" parent="@android:style/Animation.Activity">

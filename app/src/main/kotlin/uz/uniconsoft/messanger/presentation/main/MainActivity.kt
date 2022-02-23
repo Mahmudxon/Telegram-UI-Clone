@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var themeManger: ThemeManger
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

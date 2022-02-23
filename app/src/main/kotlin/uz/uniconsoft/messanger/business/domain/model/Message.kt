@@ -52,6 +52,7 @@ class Message(
     }
 
     object Type {
+        const val TYPE_UNSUPPORTED = 0L
         const val TYPE_TEXT = 1L
         const val TYPE_FILE = 2L
         const val TYPE_PHOTO = 3L
