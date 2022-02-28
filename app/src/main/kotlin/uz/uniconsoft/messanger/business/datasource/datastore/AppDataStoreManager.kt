@@ -10,13 +10,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-private const val APP_DATASTORE = "app"
-
 class AppDataStoreManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) : AppDataStore {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(APP_DATASTORE)
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Messenger")
 
     override suspend fun setValue(
         key: String,

@@ -29,8 +29,6 @@ class Message(
     var editedTime : Long,
     var attachment: List<Attachment>
 ) {
-
-
     fun isEvent(): Boolean {
         return type == TYPE_CREATED_CHAT ||
                 type == TYPE_SET_TITLE ||
