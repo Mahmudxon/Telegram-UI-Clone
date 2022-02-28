@@ -40,6 +40,7 @@ data class Theme(
     val chatCaption: Color,
     val chatOwnCaption: Color,
     val isDark: Boolean,
+    val linkColor: Color,
     val manager: ThemeManger
 ) {
     companion object {
@@ -76,6 +77,7 @@ class ThemeManger @Inject constructor(
             chatCaption = Color(0xFFA1AAB3),
             chatOwnCaption = Color(0xFF62AC55),
             isDark = false,
+            linkColor = Blue700,
             manager = this
         ),
         Theme(
@@ -100,6 +102,7 @@ class ThemeManger @Inject constructor(
             chatCaption = Color(0xFF535e6a),
             chatOwnCaption = Color(0xFF535e6a),
             isDark = true,
+            linkColor = Blue200,
             manager = this
         )
     )
