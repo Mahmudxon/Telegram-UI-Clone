@@ -20,14 +20,15 @@ import uz.uniconsoft.messanger.business.domain.model.Message.Type.TYPE_VOICE
 class Message(
     var id: Long = 0L,
     var type: Long = TYPE_TEXT,
+    var conversationId: Long = 0L,
     var text: String = "",
     var status: Long = STATUS_WAITING,
     var forwardId: Long = 0L,
     var replyId: Long = 0L,
     var date: Long = 0L,
-    var isDeleted : Boolean,
-    var editedTime : Long,
-    var attachment: List<Attachment>
+    var isDeleted: Boolean = false,
+    var editedTime: Long = 0L,
+    var attachment: List<Attachment> = listOf()
 ) {
     fun isEvent(): Boolean {
         return type == TYPE_CREATED_CHAT ||
