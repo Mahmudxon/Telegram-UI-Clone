@@ -58,7 +58,7 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Telegram") },
+                title = { Text(text = stringResource(id = R.string.AppName)) },
                 actions = {
                     Icon(
                         Icons.Default.Search,

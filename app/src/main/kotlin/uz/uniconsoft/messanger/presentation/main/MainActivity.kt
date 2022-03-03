@@ -28,7 +28,11 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.business.domain.util.getScreenOrientation
@@ -197,3 +201,4 @@ fun CloseDrawer(scaffoldState: ScaffoldState) {
         scaffoldState.drawerState.close()
     }
 }
+
