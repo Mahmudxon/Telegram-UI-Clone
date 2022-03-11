@@ -6,9 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ScaffoldState
@@ -16,8 +18,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,11 +28,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
 import uz.uniconsoft.messanger.business.domain.util.getScreenOrientation
@@ -168,31 +164,6 @@ fun MainScreen(
     }
 }
 
-
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@Composable
-fun ChatScreenTablet(theme: Theme, scaffoldState: ScaffoldState, index: MutableState<Int>) {
-    Row {
-        Column(modifier = Modifier.weight(3f)) {
-            ChatScreen(theme = theme, index = index, scaffoldState = scaffoldState)
-        }
-        Column(modifier = Modifier.weight(5f)) {
-            Box {
-                Image(
-                    painter = painterResource(id = theme.chatBackground),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillWidth
-                )
-                if (index.value >= 0)
-                    ChatDetailScreen(index = index.value, theme = theme)
-            }
-        }
-    }
-}
-
-
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CloseDrawer(scaffoldState: ScaffoldState) {
@@ -201,4 +172,3 @@ fun CloseDrawer(scaffoldState: ScaffoldState) {
         scaffoldState.drawerState.close()
     }
 }
-
