@@ -1,8 +1,6 @@
-package uz.uniconsoft.messanger.presentation.main.screens
+package uz.uniconsoft.messanger.presentation.ui.main.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -24,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
-import uz.uniconsoft.messanger.presentation.main.Router
+import uz.uniconsoft.messanger.presentation.ui.main.Router
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable

@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.auth.verification
+package uz.uniconsoft.messanger.presentation.ui.auth.verification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

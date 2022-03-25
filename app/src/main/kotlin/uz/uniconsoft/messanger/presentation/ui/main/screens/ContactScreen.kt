@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.main.screens
+package uz.uniconsoft.messanger.presentation.ui.main.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import uz.uniconsoft.messanger.business.domain.util.Chat
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
-import uz.uniconsoft.messanger.presentation.main.Router
+import uz.uniconsoft.messanger.presentation.ui.main.Router
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 

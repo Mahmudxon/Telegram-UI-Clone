@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import uz.uniconsoft.messanger.R
-import uz.uniconsoft.messanger.presentation.main.Router
-import uz.uniconsoft.messanger.presentation.main.Routes
+import uz.uniconsoft.messanger.presentation.ui.main.Router
+import uz.uniconsoft.messanger.presentation.ui.main.Routes
 import uz.uniconsoft.messanger.presentation.theme.Theme
 
 @Composable

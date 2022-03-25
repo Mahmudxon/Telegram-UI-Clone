@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.main.screens
+package uz.uniconsoft.messanger.presentation.ui.main.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.presentation.component.PeerBubble
 import uz.uniconsoft.messanger.presentation.component.UserBubble
-import uz.uniconsoft.messanger.presentation.main.Router
+import uz.uniconsoft.messanger.presentation.ui.main.Router
 import uz.uniconsoft.messanger.presentation.theme.BottomSheetShapes
 import uz.uniconsoft.messanger.presentation.theme.Theme
 

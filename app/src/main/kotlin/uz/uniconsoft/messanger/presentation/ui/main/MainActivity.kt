@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.main
+package uz.uniconsoft.messanger.presentation.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -29,14 +29,12 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import uz.uniconsoft.messanger.business.domain.util.Device
-import uz.uniconsoft.messanger.business.domain.util.getDeviceType
-import uz.uniconsoft.messanger.business.domain.util.getScreenOrientation
+import uz.uniconsoft.messanger.business.domain.util.*
 import uz.uniconsoft.messanger.presentation.component.CircularReveal
-import uz.uniconsoft.messanger.presentation.main.screens.*
 import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
+import uz.uniconsoft.messanger.presentation.ui.main.screens.*
 import javax.inject.Inject
 
 @ExperimentalComposeUiApi
@@ -48,40 +46,46 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var themeManger: ThemeManger
 
+    @Inject
+    lateinit var fileManager: IFileManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val systemTheme = themeManger.currentTheme.value
             val uiController = rememberSystemUiController()
-            val index = remember {
-                mutableStateOf(-1)
-            }
-            val scaffoldState = rememberScaffoldState()
-            val navController = rememberNavController()
-            ProvideWindowInsets {
-                CircularReveal(
-                    targetState = systemTheme,
-                    animationSpec = tween(durationMillis = 700)
-                ) { theme ->
-                    Box(
-                        modifier = Modifier
-                            .background(theme.appbarBackgroundColor)
-                            .statusBarsPadding()
-                    ) {
-                        TelegramCloneTheme(theme.isDark) {
-                            uiController.setNavigationBarColor(theme.windowBackground)
-                            Column(
-                                modifier = Modifier
-                                    .background(theme.windowBackground)
-                                    .navigationBarsWithImePadding(),
-                            ) {
-                                CompositionLocalProvider(Router provides navController) {
-                                    MainScreen(
-                                        theme = theme,
-                                        isTabletLandCape = getDeviceType() == Device.Type.Tablet && getScreenOrientation() == Device.Screen.Orientation.Landscape,
-                                        scaffoldState = scaffoldState,
-                                        index = index
-                                    )
+            CompositionLocalProvider(LocalFileManager provides fileManager)
+            {
+                val index = remember {
+                    mutableStateOf(-1)
+                }
+                val scaffoldState = rememberScaffoldState()
+                val navController = rememberNavController()
+                ProvideWindowInsets {
+                    CircularReveal(
+                        targetState = systemTheme,
+                        animationSpec = tween(durationMillis = 700)
+                    ) { theme ->
+                        Box(
+                            modifier = Modifier
+                                .background(theme.appbarBackgroundColor)
+                                .statusBarsPadding()
+                        ) {
+                            TelegramCloneTheme(theme.isDark) {
+                                uiController.setNavigationBarColor(theme.windowBackground)
+                                Column(
+                                    modifier = Modifier
+                                        .background(theme.windowBackground)
+                                        .navigationBarsWithImePadding(),
+                                ) {
+                                    CompositionLocalProvider(Router provides navController) {
+                                        MainScreen(
+                                            theme = theme,
+                                            isTabletLandCape = getDeviceType() == Device.Type.Tablet && getScreenOrientation() == Device.Screen.Orientation.Landscape,
+                                            scaffoldState = scaffoldState,
+                                            index = index
+                                        )
+                                    }
                                 }
                             }
                         }

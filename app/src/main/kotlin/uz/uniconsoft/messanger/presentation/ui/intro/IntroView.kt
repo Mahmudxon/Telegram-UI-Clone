@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.intro
+package uz.uniconsoft.messanger.presentation.ui.intro
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.infiniteRepeatable

@@ -1,6 +1,10 @@
 package uz.uniconsoft.messanger.business.domain.model
 
+import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
+
 sealed class Attachment {
+    val id: Long = 0L
+    var state: AttachmentState = AttachmentState.NotDownloaded
 
     data class File(
         var name: String,
@@ -22,6 +26,13 @@ sealed class Attachment {
         var length: Long
     ) : Attachment()
 
+    data class Video(
+        var location: String,
+        var size: Long,
+        var length: Long,
+        var thumbnail: String,
+    ) : Attachment()
+
     data class Music(
         var name: String,
         var artist: String? = null,
@@ -40,5 +51,4 @@ sealed class Attachment {
         var latitude: Double,
         var longitude: Double
     ) : Attachment()
-
 }

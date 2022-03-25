@@ -3,6 +3,7 @@ package uz.uniconsoft.messanger.presentation.component
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.CircularProgressIndicator
@@ -20,10 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
+import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
+import uz.uniconsoft.messanger.business.domain.util.LocalFileManager
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
-import uz.uniconsoft.messanger.presentation.main.states.AttachmentState
 import uz.uniconsoft.messanger.presentation.theme.Theme
+import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
 
 @Composable
 fun TextMessageContent(message: Message, theme: Theme, onClick: ((annotationTag: String) -> Unit)) {
@@ -45,13 +48,13 @@ fun TextMessageContent(message: Message, theme: Theme, onClick: ((annotationTag:
 }
 
 @Composable
-fun MessagePhotoItem(state: AttachmentState, click: (() -> Unit)) {
+fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
 
-    when (state) {
-        is AttachmentState.BlurPreview -> {
+    when (val state = photo.state) {
+        is AttachmentState.NotDownloaded -> {
             Box(modifier = Modifier.fillMaxWidth())
             {
-                GlideImage(imageModel = state.preview, modifier = Modifier.fillMaxWidth())
+                GlideImage(imageModel = photo.thumbnail, modifier = Modifier.fillMaxWidth())
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -78,7 +81,7 @@ fun MessagePhotoItem(state: AttachmentState, click: (() -> Unit)) {
         is AttachmentState.Downloading -> {
             Box(modifier = Modifier.fillMaxWidth())
             {
-                GlideImage(imageModel = state.preview, modifier = Modifier.fillMaxWidth())
+                GlideImage(imageModel = photo.thumbnail, modifier = Modifier.fillMaxWidth())
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -125,9 +128,24 @@ fun MessagePhotoItem(state: AttachmentState, click: (() -> Unit)) {
             }
         }
         is AttachmentState.Downloaded -> {
-            GlideImage(imageModel = state.localFileName, modifier = Modifier.fillMaxWidth())
+            GlideImage(
+                imageModel = LocalFileManager.current.getAttachmentDownloadedPath(photo),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
 
 
+@Composable
+fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) -> Unit) {
+    LazyColumn {
+        images.forEach { image ->
+            item {
+                MessagePhotoItem(photo = image) {
+                    click(image)
+                }
+            }
+        }
+    }
+}

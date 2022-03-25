@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.auth.phone
+package uz.uniconsoft.messanger.presentation.ui.auth.phone
 
 import android.telephony.PhoneNumberUtils
 import androidx.compose.foundation.background

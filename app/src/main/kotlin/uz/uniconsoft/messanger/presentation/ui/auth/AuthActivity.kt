@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.intro
+package uz.uniconsoft.messanger.presentation.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -19,13 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.Device
 import uz.uniconsoft.messanger.business.domain.util.getDeviceType
-import uz.uniconsoft.messanger.presentation.auth.AuthActivity
+import uz.uniconsoft.messanger.presentation.ui.auth.phone.PhoneInputView
+import uz.uniconsoft.messanger.presentation.ui.auth.verification.VerificationScreen
+import uz.uniconsoft.messanger.presentation.ui.main.MainActivity
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import javax.inject.Inject
@@ -34,61 +34,26 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-@ExperimentalPagerApi
-class IntroActivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity() {
 
     @Inject
     lateinit var themeManger: ThemeManger
 
-    private val titles by lazy {
-        arrayOf(
-            getString(R.string.Page1Title),
-            getString(R.string.Page2Title),
-            getString(R.string.Page3Title),
-            getString(R.string.Page5Title),
-            getString(R.string.Page4Title),
-            getString(R.string.Page6Title)
-        )
-    }
-    private val messages by lazy {
-        arrayOf(
-            getString(R.string.Page1Message),
-            getString(R.string.Page2Message),
-            getString(R.string.Page3Message),
-            getString(R.string.Page5Message),
-            getString(R.string.Page4Message),
-            getString(R.string.Page6Message)
-        )
-    }
-
-    private val icons by lazy {
-        arrayOf(
-            R.drawable.intro1,
-            R.drawable.intro2,
-            R.drawable.intro3,
-            R.drawable.intro4,
-            R.drawable.intro5,
-            R.drawable.intro6,
-            R.drawable.intro7,
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             val defTheme = if (isSystemInDarkTheme()) Theme.defDark else Theme.defLight
             themeManger.changeTheme(defTheme)
             val theme = themeManger.currentTheme.value
-            val pagerState = rememberPagerState()
             val boxModifier = if (getDeviceType() == Device.Type.Tablet)
                 Modifier
                     .height(450.dp)
                     .width(500.dp)
-                    .background(Color.White)
             else
                 Modifier
                     .fillMaxSize()
-                    .background(Color.White)
+
 
             Box(Modifier.fillMaxSize()) {
 
@@ -111,37 +76,30 @@ class IntroActivity : AppCompatActivity() {
                     )
                     {
 
-                        IntroPagerView(
-                            pagerState = pagerState,
-                            messages = titles.toList(),
-                            description = messages.toList()
-                        )
-                        IntroLottieView(
-                            pagerState = pagerState,
-                            onclick = {
-                                startActivity(
-                                    Intent(
-                                        this@IntroActivity,
-                                        AuthActivity::class.java
-                                    )
+                        NavHost(navController = navController, startDestination = "phoneInput") {
+                            composable("phoneInput") {
+                                PhoneInputView(
+                                    theme = theme,
+                                    needPaddingStatusBar = (getDeviceType() == Device.Type.Phone),
+                                    navController = navController
                                 )
-                                 finish()
-                            },
-                            icons = icons.asList()
-                        )
-                    }
+                            }
+                            composable("code") {
+                                VerificationScreen(
+                                    theme = theme,
+                                    needPaddingStatusBar = getDeviceType() == Device.Type.Phone
+                                )
+                                {
+                                    startActivity(Intent(this@AuthActivity, MainActivity::class.java))
+                                    finish()
+                                }
+                            }
 
-//                    Button(onClick = {
-//                        if (theme.isDark)
-//                            themeManger.changeTheme(Theme.defLight)
-//                        else themeManger.changeTheme(Theme.defDark)
-//
-//                    }) {
-//                        Text(text = "Change Theme")
-//                    }
+                        }
+                    }
                 }
             }
-
         }
+
     }
 }
