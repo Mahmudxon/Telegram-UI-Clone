@@ -135,7 +135,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
         }
         is AttachmentState.Downloaded -> {
             AsyncImage(
-                model = LocalFileManager.current.getAttachmentDownloadedPath(photo),
+                model =   photo.thumbnail, // LocalFileManager.current.getAttachmentDownloadedPath(photo),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
@@ -180,7 +180,11 @@ fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) 
 }
 
 @Composable
-fun MessageContent(message: Message, theme: Theme) {
+fun MessageContent(
+    message: Message, theme: Theme,
+    annotationClick: ((annotationTag: String, annotationItem: String) -> Unit),
+    attachmentClick: ((attachment: Attachment) -> Unit)
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,26 +193,24 @@ fun MessageContent(message: Message, theme: Theme) {
         when (message.type) {
             Message.Type.TYPE_PHOTO -> {
                 val photos = message.attachment.map { it as Attachment.Photo }
-                MessagePhotoItems(images = photos)
-                {
-
-                }
+                MessagePhotoItems(images = photos, click = attachmentClick)
             }
         }
 
         if (message.type != Message.Type.TYPE_TEXT)
             Spacer(modifier = Modifier.height(16.dp))
 
-        TextMessageContent(message = message, theme = theme)
-        { _, _ ->
-
-        }
+        TextMessageContent(message = message, theme = theme, onClick = annotationClick)
     }
 }
 
 
 @Composable
-fun OwnMessage(message: Message) {
+fun OwnMessage(
+    message: Message,
+    annotationClick: ((annotationTag: String, annotationItem: String) -> Unit) = { _, _ -> },
+    attachmentClick: ((attachment: Attachment) -> Unit) = {}
+) {
     val theme = LocalThemeManager.current.currentTheme.value
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -223,7 +225,12 @@ fun OwnMessage(message: Message) {
                 bottomStart = 16.dp,
             )
         ) {
-            MessageContent(message = message, theme = theme)
+            MessageContent(
+                message = message,
+                theme = theme,
+                annotationClick = annotationClick,
+                attachmentClick = attachmentClick
+            )
         }
     }
 }
