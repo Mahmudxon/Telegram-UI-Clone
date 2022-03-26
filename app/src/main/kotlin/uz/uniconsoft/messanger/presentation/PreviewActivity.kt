@@ -3,17 +3,28 @@ package uz.uniconsoft.messanger.presentation
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.AndroidEntryPoint
 import uz.uniconsoft.messanger.business.domain.model.Attachment
-import uz.uniconsoft.messanger.presentation.component.MessagePhotoItems
+import uz.uniconsoft.messanger.business.domain.model.Message
+import uz.uniconsoft.messanger.presentation.component.OwnMessage
+import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
+import uz.uniconsoft.messanger.presentation.theme.ThemeManger
 import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PreviewActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var themeManger: ThemeManger
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,18 +75,25 @@ class PreviewActivity : AppCompatActivity() {
                     ),
                 )
 
-            Column(modifier = Modifier.width(200.dp)) {
-                MessagePhotoItems(images = photos)
+            val message = Message()
+            message.type = Message.Type.TYPE_PHOTO
+            message.attachment = photos
+            message.text = "Bu Test text"
+
+            CompositionLocalProvider(LocalThemeManager provides themeManger) {
+                LazyColumn(modifier = Modifier.fillMaxSize())
                 {
-                    when (it.state) {
-                        is AttachmentState.NotDownloaded -> it.state =
-                            AttachmentState.Downloading(512, 1024)
-                        is AttachmentState.Downloading -> it.state = AttachmentState.Downloaded
-                        else -> it.state = AttachmentState.NotDownloaded
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .width(460.dp)
+                                .padding(60.dp)
+                        ) {
+                            OwnMessage(message = message)
+                        }
                     }
                 }
             }
-
         }
 
     }

@@ -7,8 +7,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import dagger.hilt.android.qualifiers.ApplicationContext
 import uz.uniconsoft.messanger.R
 import javax.inject.Inject
@@ -167,3 +169,5 @@ fun TelegramCloneTheme(
         content = content
     )
 }
+
+val LocalThemeManager = compositionLocalOf<ThemeManger> { error("No theme manager found!") }

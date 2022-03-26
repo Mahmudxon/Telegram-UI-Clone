@@ -3,9 +3,10 @@ package uz.uniconsoft.messanger.presentation.component
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
@@ -26,23 +27,27 @@ import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.LocalFileManager
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
+import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
 
 @Composable
-fun TextMessageContent(message: Message, theme: Theme, onClick: ((annotationTag: String) -> Unit)) {
+fun TextMessageContent(
+    message: Message,
+    theme: Theme,
+    onClick: ((annotationTag: String, annotationItem: String) -> Unit)
+) {
     val styledText = messageFormatter(text = message.text, color = theme.linkColor)
     ClickableText(
         text = styledText,
         style = TextStyle(color = theme.chatTextColor),
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         onClick = {
             styledText.getStringAnnotations(start = it, end = it)
                 .firstOrNull()
                 ?.let { annotation ->
-                    onClick(annotation.tag)
+                    onClick(annotation.tag, annotation.item)
                 }
         }
     )
@@ -54,19 +59,25 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
     when (val state = photo.state) {
         is AttachmentState.NotDownloaded,
         is AttachmentState.Downloading -> {
-            Box(modifier = Modifier.fillMaxWidth())
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 60.dp)
+            )
             {
                 AsyncImage(
                     model = photo.thumbnail,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.Center),
                     contentScale = ContentScale.FillWidth
                 )
 
                 Box(
                     modifier = Modifier
                         .matchParentSize()
-                        .background(Color(0x71000000))
+                        .background(Color(0xE0212427))
                 )
                 {
 
@@ -133,39 +144,86 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
     }
 }
 
-
 @Composable
 fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) -> Unit) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         val startIndex = if (images.size % 2 == 0) {
             0
         } else {
-            item {
-                MessagePhotoItem(photo = images[0]) {
-                    click(images[0])
-                }
+
+            MessagePhotoItem(photo = images[0]) {
+                click(images[0])
             }
             1
         }
 
         for (x in startIndex until images.size step 2) {
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        MessagePhotoItem(photo = images[x]) {
-                            click(images[x])
-                        }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    MessagePhotoItem(photo = images[x]) {
+                        click(images[x])
                     }
-                    Column(modifier = Modifier.weight(1f)) {
-                        MessagePhotoItem(photo = images[x + 1]) {
-                            click(images[x + 1])
-                        }
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    MessagePhotoItem(photo = images[x + 1]) {
+                        click(images[x + 1])
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MessageContent(message: Message, theme: Theme) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        when (message.type) {
+            Message.Type.TYPE_PHOTO -> {
+                val photos = message.attachment.map { it as Attachment.Photo }
+                MessagePhotoItems(images = photos)
+                {
+
+                }
+            }
+        }
+
+        if (message.type != Message.Type.TYPE_TEXT)
+            Spacer(modifier = Modifier.height(16.dp))
+
+        TextMessageContent(message = message, theme = theme)
+        { _, _ ->
+
+        }
+    }
+}
+
+
+@Composable
+fun OwnMessage(message: Message) {
+    val theme = LocalThemeManager.current.currentTheme.value
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(0.9f),
+            backgroundColor = theme.ownChatBackgroundColor,
+            shape = RoundedCornerShape(
+                topStart = 16.dp,
+                topEnd = 16.dp,
+                bottomStart = 16.dp,
+            )
+        ) {
+            MessageContent(message = message, theme = theme)
         }
     }
 }
