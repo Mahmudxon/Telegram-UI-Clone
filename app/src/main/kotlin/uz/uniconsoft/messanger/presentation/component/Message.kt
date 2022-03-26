@@ -18,9 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
 import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.LocalFileManager
@@ -51,86 +52,82 @@ fun TextMessageContent(message: Message, theme: Theme, onClick: ((annotationTag:
 fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
 
     when (val state = photo.state) {
-        is AttachmentState.NotDownloaded -> {
-            Box(modifier = Modifier.fillMaxWidth())
-            {
-                GlideImage(imageModel = photo.thumbnail, modifier = Modifier.fillMaxWidth())
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color(0x50FFFFFF))
-                )
-                {
-
-                    OutlinedButton(
-                        onClick = click,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(56.dp),
-                        shape = CircleShape
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Download,
-                            contentDescription = "Download Icon",
-                        )
-                    }
-
-                }
-            }
-        }
+        is AttachmentState.NotDownloaded,
         is AttachmentState.Downloading -> {
             Box(modifier = Modifier.fillMaxWidth())
             {
-                GlideImage(imageModel = photo.thumbnail, modifier = Modifier.fillMaxWidth())
+                AsyncImage(
+                    model = photo.thumbnail,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth
+                )
+
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color(0x50FFFFFF))
+                        .matchParentSize()
+                        .background(Color(0x71000000))
                 )
                 {
 
-                    OutlinedButton(
-                        onClick = {
-
-                        },
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(56.dp),
-                        shape = CircleShape,
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        val infiniteTransition = rememberInfiniteTransition()
-                        val angle by infiniteTransition.animateFloat(
-                            initialValue = 0F,
-                            targetValue = 360F,
-                            animationSpec = infiniteRepeatable(
-                                animation = tween(2000, easing = LinearEasing)
-                            )
-                        )
-                        val progress = state.currentBytes.toFloat() / state.totalBytes
-
-                        Box {
-                            CircularProgressIndicator(
-                                progress = if (progress > 0) progress else 0.02f,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .rotate(angle)
-                            )
+                    if (state is AttachmentState.NotDownloaded) {
+                        OutlinedButton(
+                            onClick = click,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(56.dp),
+                            shape = CircleShape
+                        ) {
                             Icon(
-                                imageVector = Icons.Default.Cancel,
-                                contentDescription = "Cancel Icon",
-                                modifier = Modifier.padding(16.dp)
+                                imageVector = Icons.Default.Download,
+                                contentDescription = "Download Icon",
                             )
                         }
-                    }
+                    } else if (state is AttachmentState.Downloading) {
+                        OutlinedButton(
+                            onClick = {
 
+                            },
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(56.dp),
+                            shape = CircleShape,
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            val infiniteTransition = rememberInfiniteTransition()
+                            val angle by infiniteTransition.animateFloat(
+                                initialValue = 0F,
+                                targetValue = 360F,
+                                animationSpec = infiniteRepeatable(
+                                    animation = tween(2000, easing = LinearEasing)
+                                )
+                            )
+                            val progress = state.currentBytes.toFloat() / state.totalBytes
+
+                            Box {
+                                CircularProgressIndicator(
+                                    progress = if (progress > 0) progress else 0.02f,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .rotate(angle)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Cancel,
+                                    contentDescription = "Cancel Icon",
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
         is AttachmentState.Downloaded -> {
-            GlideImage(
-                imageModel = LocalFileManager.current.getAttachmentDownloadedPath(photo),
-                modifier = Modifier.fillMaxWidth()
+            AsyncImage(
+                model = LocalFileManager.current.getAttachmentDownloadedPath(photo),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
             )
         }
     }
@@ -139,11 +136,34 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
 
 @Composable
 fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) -> Unit) {
-    LazyColumn {
-        images.forEach { image ->
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        val startIndex = if (images.size % 2 == 0) {
+            0
+        } else {
             item {
-                MessagePhotoItem(photo = image) {
-                    click(image)
+                MessagePhotoItem(photo = images[0]) {
+                    click(images[0])
+                }
+            }
+            1
+        }
+
+        for (x in startIndex until images.size step 2) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        MessagePhotoItem(photo = images[x]) {
+                            click(images[x])
+                        }
+                    }
+                    Column(modifier = Modifier.weight(1f)) {
+                        MessagePhotoItem(photo = images[x + 1]) {
+                            click(images[x + 1])
+                        }
+                    }
                 }
             }
         }
