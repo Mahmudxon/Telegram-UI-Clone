@@ -89,7 +89,7 @@ class PreviewActivity : AppCompatActivity() {
             val message = Message()
             message.type = Message.Type.TYPE_PHOTO
             message.attachment = photos
-            message.text = "Normal `code`  *bold*   https://google.com"
+            message.text = "Normal `code`  *bold*   https://google.com  @username"
 
             CompositionLocalProvider(LocalThemeManager provides themeManger) {
                 LazyColumn(modifier = Modifier.fillMaxSize())
