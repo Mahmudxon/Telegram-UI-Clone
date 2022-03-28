@@ -162,5 +162,5 @@ fun getFakeMessages(): List<Message> {
     message3.text = "Normal `code`  *bold*   https://google.com  @username"
     message3.status = Message.Status.STATUS_WAITING
 
-    return listOf(message1, message2, message3)
+    return listOf(message1, message2, message2, message3)
 }

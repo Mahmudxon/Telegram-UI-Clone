@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
@@ -187,7 +189,7 @@ fun MessageContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
         when (message.type) {
@@ -240,7 +242,7 @@ fun OwnMessage(
         horizontalArrangement = Arrangement.End
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(0.7f),
+            modifier = Modifier.fillMaxWidth(0.8f),
             backgroundColor = theme.ownChatBackgroundColor,
             shape = RoundedCornerShape(
                 topStart = 16.dp,
@@ -256,6 +258,13 @@ fun OwnMessage(
                 isOwnMessage = true
             )
         }
+
+        Icon(
+            painter = painterResource(id = R.drawable.ic_own_message_shape),
+            contentDescription = "shape",
+            tint = theme.ownChatBackgroundColor
+        )
+
     }
 }
 
@@ -272,9 +281,16 @@ fun FriendMessage(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Start
     ) {
+
+        Icon(
+            painter = painterResource(id = R.drawable.ic_friend_messanger_shape),
+            contentDescription = "shape",
+            tint = theme.partnerChatBackgroundColor
+        )
+
         Card(
-            modifier = Modifier.fillMaxWidth(0.7f),
-            backgroundColor = theme.chatBackgroundColor,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            backgroundColor = theme.partnerChatBackgroundColor,
             shape = RoundedCornerShape(
                 topStart = 16.dp,
                 topEnd = 16.dp,
@@ -289,6 +305,7 @@ fun FriendMessage(
                 isOwnMessage = false
             )
         }
+
     }
 }
 
