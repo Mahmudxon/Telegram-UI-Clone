@@ -76,6 +76,7 @@ class Message(
         const val STATUS_WAITING = 0L
         const val STATUS_SENT = 1L
         const val STATUS_SEEN = 2L
+        const val STATUS_ERROR = 3L
     }
 
     object Progress {

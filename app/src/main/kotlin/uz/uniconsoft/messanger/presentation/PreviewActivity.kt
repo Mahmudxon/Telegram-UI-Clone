@@ -90,6 +90,7 @@ class PreviewActivity : AppCompatActivity() {
             message.type = Message.Type.TYPE_PHOTO
             message.attachment = photos
             message.text = "Normal `code`  *bold*   https://google.com  @username"
+            message.status = Message.Status.STATUS_ERROR
 
             CompositionLocalProvider(LocalThemeManager provides themeManger) {
                 LazyColumn(modifier = Modifier.fillMaxSize())

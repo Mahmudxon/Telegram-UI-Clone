@@ -6,13 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
-import uz.uniconsoft.messanger.business.domain.util.LocalFileManager
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
 import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.Theme
@@ -135,7 +131,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
         }
         is AttachmentState.Downloaded -> {
             AsyncImage(
-                model =   photo.thumbnail, // LocalFileManager.current.getAttachmentDownloadedPath(photo),
+                model = photo.thumbnail, // LocalFileManager.current.getAttachmentDownloadedPath(photo),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
@@ -183,12 +179,17 @@ fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) 
 fun MessageContent(
     message: Message, theme: Theme,
     annotationClick: ((annotationTag: String, annotationItem: String) -> Unit),
-    attachmentClick: ((attachment: Attachment) -> Unit)
+    attachmentClick: ((attachment: Attachment) -> Unit),
+    isOwnMessage: Boolean = false
 ) {
+
+    val captionColor = if (isOwnMessage) theme.chatOwnCaption else theme.chatCaption
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+        horizontalAlignment = Alignment.End
     ) {
         when (message.type) {
             Message.Type.TYPE_PHOTO -> {
@@ -201,6 +202,23 @@ fun MessageContent(
             Spacer(modifier = Modifier.height(16.dp))
 
         TextMessageContent(message = message, theme = theme, onClick = annotationClick)
+
+        Row {
+            Text(text = "16:20 PM", color = captionColor, modifier = Modifier.padding(end = 8.dp), fontSize = 12.sp)
+            val statusIcon = when (message.status) {
+                Message.Status.STATUS_SENT -> Icons.Default.Done
+                Message.Status.STATUS_SEEN -> Icons.Default.DoneAll
+                Message.Status.STATUS_WAITING -> Icons.Default.Timer
+                else -> Icons.Default.Error
+            }
+
+            Icon(
+                imageVector = statusIcon,
+                contentDescription = "Message Status",
+                modifier = Modifier.width(16.dp),
+                tint = captionColor
+            )
+        }
     }
 }
 

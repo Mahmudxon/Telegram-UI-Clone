@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation
+package uz.uniconsoft.messanger.application
 
 import android.app.Application
 import androidx.compose.runtime.CompositionLocalProvider
@@ -11,6 +11,5 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         // Start app()
-
     }
 }
