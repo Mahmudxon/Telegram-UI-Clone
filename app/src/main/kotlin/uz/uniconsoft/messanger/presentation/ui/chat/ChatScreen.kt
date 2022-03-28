@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.main.screens
+package uz.uniconsoft.messanger.presentation.ui.chat
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background

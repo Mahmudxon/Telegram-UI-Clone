@@ -35,7 +35,11 @@ import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
-import uz.uniconsoft.messanger.presentation.ui.main.screens.*
+import uz.uniconsoft.messanger.presentation.ui.chat.ChatScreen
+import uz.uniconsoft.messanger.presentation.ui.chat.ChatScreenToTablet
+import uz.uniconsoft.messanger.presentation.ui.contact.ContactScreen
+import uz.uniconsoft.messanger.presentation.ui.convertation.ChatDetailScreen
+import uz.uniconsoft.messanger.presentation.ui.settings.SettingScreen
 import javax.inject.Inject
 
 @ExperimentalComposeUiApi

@@ -1,7 +1,6 @@
 package uz.uniconsoft.messanger.presentation
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
@@ -15,13 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notify
 import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
-import uz.uniconsoft.messanger.presentation.component.OwnMessage
+import uz.uniconsoft.messanger.presentation.ui.chat.FriendMessage
+import uz.uniconsoft.messanger.presentation.ui.chat.OwnMessage
 import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
-import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
+import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,7 +39,6 @@ class PreviewActivity : AppCompatActivity() {
             val state = remember {
                 mutableStateOf<AttachmentState>(stateBlur)
             }
-
 
 
             val photos = remember {
@@ -86,11 +84,23 @@ class PreviewActivity : AppCompatActivity() {
             photos[0].state = AttachmentState.Downloading(128, 1024)
             photos[2].state = AttachmentState.Downloaded
 
-            val message = Message()
-            message.type = Message.Type.TYPE_PHOTO
-            message.attachment = photos
-            message.text = "Normal `code`  *bold*   https://google.com  @username"
-            message.status = Message.Status.STATUS_ERROR
+            val message1 = Message()
+            message1.type = Message.Type.TYPE_TEXT
+            message1.attachment = photos
+            message1.text = "Normal `code`  *bold*   https://google.com  @username"
+            message1.status = Message.Status.STATUS_SEEN
+
+            val message2 = Message()
+            message2.type = Message.Type.TYPE_PHOTO
+            message2.attachment = photos
+            message2.text = "Normal `code`  *bold*   https://google.com  @username"
+            message2.status = Message.Status.STATUS_SENT
+
+            val message3 = Message()
+            message3.type = Message.Type.TYPE_TEXT
+            message3.attachment = photos
+            message3.text = "Normal `code`  *bold*   https://google.com  @username"
+            message3.status = Message.Status.STATUS_WAITING
 
             CompositionLocalProvider(LocalThemeManager provides themeManger) {
                 LazyColumn(modifier = Modifier.fillMaxSize())
@@ -99,11 +109,54 @@ class PreviewActivity : AppCompatActivity() {
                         Column(
                             modifier = Modifier
                                 .width(460.dp)
-                                .padding(60.dp)
+                                .padding(start = 60.dp, top = 60.dp)
                         ) {
-                            OwnMessage(message = message,
+                            FriendMessage(message = message1,
                                 attachmentClick = {
-                                    photos[photos.indexOf(it)].state = AttachmentState.Downloading(128, 1024)
+                                    photos[photos.indexOf(it)].state =
+                                        AttachmentState.Downloading(128, 1024)
+                                }
+                            )
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .width(460.dp)
+                                .padding(start = 60.dp, top = 16.dp)
+                        ) {
+                            OwnMessage(message = message2,
+                                attachmentClick = {
+                                    photos[photos.indexOf(it)].state =
+                                        AttachmentState.Downloading(128, 1024)
+                                }
+                            )
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .width(460.dp)
+                                .padding(start = 60.dp, top = 16.dp)
+                        ) {
+                            FriendMessage(message = message2,
+                                attachmentClick = {
+                                    photos[photos.indexOf(it)].state =
+                                        AttachmentState.Downloading(128, 1024)
+                                }
+                            )
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .width(460.dp)
+                                .padding(start = 60.dp, top = 8.dp, bottom = 60.dp)
+                        ) {
+                            OwnMessage(message = message3,
+                                attachmentClick = {
+                                    photos[photos.indexOf(it)].state =
+                                        AttachmentState.Downloading(128, 1024)
                                 }
                             )
                         }

@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.component
+package uz.uniconsoft.messanger.presentation.ui.chat
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
 import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.Theme
-import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
 
 @Composable
 fun TextMessageContent(
@@ -204,7 +203,12 @@ fun MessageContent(
         TextMessageContent(message = message, theme = theme, onClick = annotationClick)
 
         Row {
-            Text(text = "16:20 PM", color = captionColor, modifier = Modifier.padding(end = 8.dp), fontSize = 12.sp)
+            Text(
+                text = "16:20 PM",
+                color = captionColor,
+                modifier = Modifier.padding(end = 8.dp),
+                fontSize = 12.sp
+            )
             val statusIcon = when (message.status) {
                 Message.Status.STATUS_SENT -> Icons.Default.Done
                 Message.Status.STATUS_SEEN -> Icons.Default.DoneAll
@@ -232,10 +236,11 @@ fun OwnMessage(
     val theme = LocalThemeManager.current.currentTheme.value
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Bottom
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.End
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(0.7f),
             backgroundColor = theme.ownChatBackgroundColor,
             shape = RoundedCornerShape(
                 topStart = 16.dp,
@@ -247,8 +252,49 @@ fun OwnMessage(
                 message = message,
                 theme = theme,
                 annotationClick = annotationClick,
-                attachmentClick = attachmentClick
+                attachmentClick = attachmentClick,
+                isOwnMessage = true
             )
         }
     }
+}
+
+
+@Composable
+fun FriendMessage(
+    message: Message,
+    annotationClick: ((annotationTag: String, annotationItem: String) -> Unit) = { _, _ -> },
+    attachmentClick: ((attachment: Attachment) -> Unit) = {}
+) {
+    val theme = LocalThemeManager.current.currentTheme.value
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            backgroundColor = theme.chatBackgroundColor,
+            shape = RoundedCornerShape(
+                topStart = 16.dp,
+                topEnd = 16.dp,
+                bottomEnd = 16.dp,
+            )
+        ) {
+            MessageContent(
+                message = message,
+                theme = theme,
+                annotationClick = annotationClick,
+                attachmentClick = attachmentClick,
+                isOwnMessage = false
+            )
+        }
+    }
+}
+
+@Composable
+fun MessageItem(message: Message, isOwn: Boolean) {
+    if (isOwn)
+        OwnMessage(message = message)
+    else FriendMessage(message = message)
 }

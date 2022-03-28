@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.main.states
+package uz.uniconsoft.messanger.presentation.ui.chat
 
 sealed class AttachmentState {
     object NotDownloaded : AttachmentState()

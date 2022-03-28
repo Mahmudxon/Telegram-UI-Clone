@@ -1,8 +1,10 @@
 package uz.uniconsoft.messanger.business.domain.util
 
+import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Conversation
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.model.Profile
+import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
 
 val fakeProfiles = listOf(
     Profile(
@@ -98,17 +100,67 @@ val fakeConversation = listOf(
     )
 )
 
-val fakeMessages = listOf(
-    Message(
-        id = 1L,
-        type = Message.Type.TYPE_TEXT,
-        text = "*Assalomu alaykum!*",
-        conversationId = 1L
-    ),
-    Message(
-        id = 2L,
-        type = Message.Type.TYPE_TEXT,
-        text = "*Vaalaykum assalom!*",
-        conversationId = 1L
-    ),
-)
+fun getFakeMessages(): List<Message> {
+    val photos =
+        mutableListOf(
+            Attachment.Photo(
+                location = "",
+                thumbnail = "https://images.unsplash.com/photo-1510272940641-589fcd43e485?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+                size = 1024,
+                blur = "",
+                ratio = ""
+            ),
+            Attachment.Photo(
+                location = "",
+                thumbnail = "https://images.unsplash.com/photo-1648258457541-ea06dd552055?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+                size = 1024,
+                blur = "",
+                ratio = ""
+            ),
+            Attachment.Photo(
+                location = "",
+                thumbnail = "https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+                size = 1024,
+                blur = "",
+                ratio = ""
+            ),
+            Attachment.Photo(
+                location = "",
+                thumbnail = "https://images.unsplash.com/photo-1648228446196-879d8078d9dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+                size = 1024,
+                blur = "",
+                ratio = ""
+            ),
+            Attachment.Photo(
+                location = "",
+                thumbnail = "https://images.unsplash.com/photo-1648277511183-c2caf34f428b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80",
+                size = 1024,
+                blur = "",
+                ratio = ""
+            ),
+        )
+
+
+    photos[0].state = AttachmentState.Downloading(128, 1024)
+    photos[2].state = AttachmentState.Downloaded
+
+    val message1 = Message()
+    message1.type = Message.Type.TYPE_TEXT
+    message1.attachment = photos
+    message1.text = "Normal `code`  *bold*   https://google.com  @username"
+    message1.status = Message.Status.STATUS_SEEN
+
+    val message2 = Message()
+    message2.type = Message.Type.TYPE_PHOTO
+    message2.attachment = photos
+    message2.text = "Normal `code`  *bold*   https://google.com  @username"
+    message2.status = Message.Status.STATUS_SENT
+
+    val message3 = Message()
+    message3.type = Message.Type.TYPE_TEXT
+    message3.attachment = photos
+    message3.text = "Normal `code`  *bold*   https://google.com  @username"
+    message3.status = Message.Status.STATUS_WAITING
+
+    return listOf(message1, message2, message3)
+}

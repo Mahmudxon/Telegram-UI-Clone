@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.main.screens
+package uz.uniconsoft.messanger.presentation.ui.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

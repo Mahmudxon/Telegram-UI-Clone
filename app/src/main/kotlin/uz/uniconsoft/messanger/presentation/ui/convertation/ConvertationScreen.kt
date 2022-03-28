@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.main.screens
+package uz.uniconsoft.messanger.presentation.ui.convertation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
-import uz.uniconsoft.messanger.presentation.component.PeerBubble
-import uz.uniconsoft.messanger.presentation.component.UserBubble
-import uz.uniconsoft.messanger.presentation.ui.main.Router
+import uz.uniconsoft.messanger.business.domain.util.getFakeMessages
 import uz.uniconsoft.messanger.presentation.theme.BottomSheetShapes
 import uz.uniconsoft.messanger.presentation.theme.Theme
+import uz.uniconsoft.messanger.presentation.ui.chat.MessageItem
+import uz.uniconsoft.messanger.presentation.ui.main.Router
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -110,23 +110,19 @@ private fun ChatDetailAppBar(index: Int, theme: Theme) {
 
 @Composable
 private fun ChatDetailBody(theme: Theme) {
-    val listMessage = DataDummy.listMessage
+    val listMessage = getFakeMessages()
     Box {
         Image(
             painter = painterResource(id = theme.chatBackground),
             contentDescription = "chat background",
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
         )
-        LazyColumn {
+        LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             items(listMessage.size) { index ->
                 Spacer(modifier = Modifier.height(8.dp))
-                if (listMessage[index].isPeer) {
-                    PeerBubble(listMessage[index])
-                } else {
-                    UserBubble(listMessage[index])
-                }
-                Spacer(modifier = Modifier.height(32.dp))
+                MessageItem(message = listMessage[index], isOwn = index % 2 == 0)
+                Spacer(modifier = Modifier.height(8.dp))
             }
             item {
                 Spacer(modifier = Modifier.height(56.dp))

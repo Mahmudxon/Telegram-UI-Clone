@@ -1,6 +1,6 @@
 package uz.uniconsoft.messanger.business.domain.model
 
-import uz.uniconsoft.messanger.presentation.ui.main.states.AttachmentState
+import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
 
 sealed class Attachment {
     val id: Long = 0L
