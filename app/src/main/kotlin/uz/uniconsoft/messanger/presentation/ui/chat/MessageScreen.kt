@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -25,8 +26,10 @@ import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
+import uz.uniconsoft.messanger.business.domain.util.toStringAsFileSize
 import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
 import uz.uniconsoft.messanger.presentation.theme.Theme
+import java.util.*
 
 @Composable
 fun TextMessageContent(
@@ -52,7 +55,6 @@ fun TextMessageContent(
 
 @Composable
 fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
-
     when (val state = photo.state) {
         is AttachmentState.NotDownloaded,
         is AttachmentState.Downloading -> {
@@ -176,6 +178,56 @@ fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) 
     }
 }
 
+
+@Composable
+fun MessageFileItem(
+    file: Attachment.File,
+    titleColor: Color,
+    captionColor: Color,
+    click: () -> Unit
+) {
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .width(60.dp)
+                .height(60.dp)
+                .background(titleColor.copy(alpha = 0.5f))
+                .clip(RoundedCornerShape(3.dp))
+        ) {
+            Button(
+                onClick = click,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .width(40.dp)
+                    .height(40.dp),
+                shape = CircleShape,
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = titleColor)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.InsertDriveFile,
+                    contentDescription = "File Icon",
+                    tint = Color.White,
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = file.name, color = titleColor, fontSize = 15.sp)
+            Text(
+                text = "${file.size.toStringAsFileSize()} | ${file.extension.uppercase(Locale.getDefault())}",
+                color = captionColor,
+                fontSize = 13.sp
+            )
+        }
+    }
+}
+
 @Composable
 fun MessageContent(
     message: Message, theme: Theme,
@@ -228,7 +280,6 @@ fun MessageContent(
     }
 }
 
-
 @Composable
 fun OwnMessage(
     message: Message,
@@ -242,7 +293,9 @@ fun OwnMessage(
         horizontalArrangement = Arrangement.End
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(0.8f),
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxWidth(0.85f),
             backgroundColor = theme.ownChatBackgroundColor,
             shape = RoundedCornerShape(
                 topStart = 16.dp,
@@ -289,7 +342,9 @@ fun FriendMessage(
         )
 
         Card(
-            modifier = Modifier.fillMaxWidth(0.8f),
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxWidth(0.85f),
             backgroundColor = theme.partnerChatBackgroundColor,
             shape = RoundedCornerShape(
                 topStart = 16.dp,

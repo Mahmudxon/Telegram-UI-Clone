@@ -1,6 +1,7 @@
 package uz.uniconsoft.messanger.business.domain.model
 
 import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
+import java.security.cert.Extension
 
 sealed class Attachment {
     val id: Long = 0L
@@ -9,7 +10,8 @@ sealed class Attachment {
     data class File(
         var name: String,
         var location: String,
-        var size: Long
+        var size: Long,
+        var extension: String
     ) : Attachment()
 
     data class Photo(

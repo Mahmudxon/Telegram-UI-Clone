@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavHostController
 import dagger.hilt.android.qualifiers.ApplicationContext
 import uz.uniconsoft.messanger.R
 import javax.inject.Inject
@@ -43,7 +42,9 @@ data class Theme(
     val chatOwnCaption: Color,
     val isDark: Boolean,
     val linkColor: Color,
-    val manager: ThemeManger
+    val manager: ThemeManger,
+    val ownChatAttachmentTitle: Color,
+    val partnerChatAttachmentTitle: Color
 ) {
     companion object {
         const val defLight = "light"
@@ -80,7 +81,9 @@ class ThemeManger @Inject constructor(
             chatOwnCaption = Color(0xFF62AC55),
             isDark = false,
             linkColor = Blue700,
-            manager = this
+            manager = this,
+            ownChatAttachmentTitle = Color(0xFF62AC55),
+            partnerChatAttachmentTitle = Color(0xFF72B5E9)
         ),
         Theme(
             id = Theme.defDark,
@@ -105,7 +108,9 @@ class ThemeManger @Inject constructor(
             chatOwnCaption = Color(0xFF535e6a),
             isDark = true,
             linkColor = Blue200,
-            manager = this
+            manager = this,
+            ownChatAttachmentTitle = Color(0xFF6e7481),
+            partnerChatAttachmentTitle = Color(0xFF6e7481)
         )
     )
 
