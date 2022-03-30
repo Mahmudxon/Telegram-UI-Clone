@@ -2,6 +2,7 @@ package uz.uniconsoft.messanger.presentation.ui.chat
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -27,7 +27,7 @@ import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.util.messageFormatter
 import uz.uniconsoft.messanger.business.domain.util.toStringAsFileSize
-import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
+import uz.uniconsoft.messanger.presentation.theme.LocalTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import java.util.*
 
@@ -95,9 +95,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
                         }
                     } else if (state is AttachmentState.Downloading) {
                         OutlinedButton(
-                            onClick = {
-
-                            },
+                            onClick = click,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .size(56.dp),
@@ -136,7 +134,9 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
             AsyncImage(
                 model = photo.thumbnail, // LocalFileManager.current.getAttachmentDownloadedPath(photo),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = click),
                 contentScale = ContentScale.FillWidth
             )
         }
@@ -186,29 +186,69 @@ fun MessageFileItem(
     captionColor: Color,
     click: () -> Unit
 ) {
+
+    val state = file.state
+
     Row(modifier = Modifier.fillMaxWidth()) {
         Box(
             modifier = Modifier
                 .width(60.dp)
                 .height(60.dp)
-                .background(titleColor.copy(alpha = 0.5f))
-                .clip(RoundedCornerShape(3.dp))
+                .background(
+                    color = titleColor.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(5.dp)
+                ),
         ) {
             Button(
                 onClick = click,
                 modifier = Modifier
-                    .align(Alignment.Center)
                     .width(40.dp)
-                    .height(40.dp),
+                    .height(40.dp)
+                    .align(Alignment.Center),
                 shape = CircleShape,
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = titleColor)
             ) {
-                Icon(
-                    imageVector = Icons.Default.InsertDriveFile,
-                    contentDescription = "File Icon",
-                    tint = Color.White,
-                )
+
+                Box(modifier = Modifier.fillMaxSize()) {
+
+                    val icon = when (state) {
+                        is AttachmentState.Downloading -> {
+                            val infiniteTransition = rememberInfiniteTransition()
+                            val angle by infiniteTransition.animateFloat(
+                                initialValue = 0F,
+                                targetValue = 360F,
+                                animationSpec = infiniteRepeatable(
+                                    animation = tween(2000, easing = LinearEasing)
+                                )
+                            )
+                            val progress = state.currentBytes.toFloat() / state.totalBytes
+
+                            CircularProgressIndicator(
+                                progress = if (progress > 0) progress else 0.02f,
+                                modifier = Modifier
+                                    .rotate(angle)
+                                    .fillMaxSize()
+                                    .align(Alignment.Center),
+                                color = Color.White
+                            )
+
+                            Icons.Default.Cancel
+                        }
+                        AttachmentState.Downloaded -> Icons.Default.InsertDriveFile
+                        else -> Icons.Default.Download
+                    }
+
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "File Icon",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .height(24.dp)
+                            .width(24.dp)
+                    )
+                }
             }
         }
 
@@ -227,6 +267,25 @@ fun MessageFileItem(
         }
     }
 }
+
+
+@Composable
+fun MessageFileItems(
+    files: List<Attachment.File>,
+    titleColor: Color,
+    captionColor: Color,
+    click: (Attachment.File) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        files.forEach { file ->
+            Spacer(modifier = Modifier.height(2.dp))
+            MessageFileItem(file = file, titleColor = titleColor, captionColor = captionColor) {
+                click(file)
+            }
+        }
+    }
+}
+
 
 @Composable
 fun MessageContent(
@@ -248,6 +307,17 @@ fun MessageContent(
             Message.Type.TYPE_PHOTO -> {
                 val photos = message.attachment.map { it as Attachment.Photo }
                 MessagePhotoItems(images = photos, click = attachmentClick)
+            }
+            Message.Type.TYPE_FILE -> {
+                val files = message.attachment.map { it as Attachment.File }
+                val titleColor =
+                    if (isOwnMessage) theme.ownChatAttachmentTitle else theme.partnerChatAttachmentTitle
+                MessageFileItems(
+                    files = files,
+                    titleColor = titleColor,
+                    captionColor = theme.captionColor,
+                    click = attachmentClick
+                )
             }
         }
 
@@ -286,7 +356,7 @@ fun OwnMessage(
     annotationClick: ((annotationTag: String, annotationItem: String) -> Unit) = { _, _ -> },
     attachmentClick: ((attachment: Attachment) -> Unit) = {}
 ) {
-    val theme = LocalThemeManager.current.currentTheme.value
+    val theme = LocalTheme.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.Bottom,
@@ -328,7 +398,7 @@ fun FriendMessage(
     annotationClick: ((annotationTag: String, annotationItem: String) -> Unit) = { _, _ -> },
     attachmentClick: ((attachment: Attachment) -> Unit) = {}
 ) {
-    val theme = LocalThemeManager.current.currentTheme.value
+    val theme = LocalTheme.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.Bottom,

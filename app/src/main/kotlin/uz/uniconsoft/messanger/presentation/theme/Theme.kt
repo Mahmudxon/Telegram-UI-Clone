@@ -175,4 +175,4 @@ fun TelegramCloneTheme(
     )
 }
 
-val LocalThemeManager = compositionLocalOf<ThemeManger> { error("No theme manager found!") }
+val LocalTheme = compositionLocalOf<Theme> { error("No theme manager found!") }

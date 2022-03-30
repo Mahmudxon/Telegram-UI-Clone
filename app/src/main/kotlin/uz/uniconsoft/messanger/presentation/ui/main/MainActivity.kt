@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import uz.uniconsoft.messanger.business.domain.util.*
 import uz.uniconsoft.messanger.presentation.component.CircularReveal
-import uz.uniconsoft.messanger.presentation.theme.LocalThemeManager
+import uz.uniconsoft.messanger.presentation.theme.LocalTheme
 import uz.uniconsoft.messanger.presentation.theme.TelegramCloneTheme
 import uz.uniconsoft.messanger.presentation.theme.Theme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
@@ -59,19 +59,20 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val systemTheme = themeManger.currentTheme.value
             val uiController = rememberSystemUiController()
-            CompositionLocalProvider(LocalThemeManager provides themeManger) {
-                CompositionLocalProvider(LocalFileManager provides fileManager)
-                {
-                    val index = remember {
-                        mutableStateOf(-1)
-                    }
-                    val scaffoldState = rememberScaffoldState()
-                    val navController = rememberNavController()
-                    ProvideWindowInsets {
-                        CircularReveal(
-                            targetState = systemTheme,
-                            animationSpec = tween(durationMillis = 700)
-                        ) { theme ->
+
+            CompositionLocalProvider(LocalFileManager provides fileManager)
+            {
+                val index = remember {
+                    mutableStateOf(-1)
+                }
+                val scaffoldState = rememberScaffoldState()
+                val navController = rememberNavController()
+                ProvideWindowInsets {
+                    CircularReveal(
+                        targetState = systemTheme,
+                        animationSpec = tween(durationMillis = 700)
+                    ) { theme ->
+                        CompositionLocalProvider(LocalTheme provides theme) {
                             Box(
                                 modifier = Modifier
                                     .background(theme.appbarBackgroundColor)

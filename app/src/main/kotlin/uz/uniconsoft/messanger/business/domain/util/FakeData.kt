@@ -162,5 +162,39 @@ fun getFakeMessages(): List<Message> {
     message3.text = "Normal `code`  *bold*   https://google.com  @username"
     message3.status = Message.Status.STATUS_WAITING
 
-    return listOf(message1, message2, message2, message3)
+    val file1 = Attachment.File(
+        name = "Surface 2022.03.29_15_15.zip",
+        location = "https://images.unsplash.com/photo-1640622304293-ec9c89c6bac9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+        size = 102478568,
+        extension = "zip"
+    )
+
+    file1.state = AttachmentState.Downloaded
+    // AttachmentState.NotDownloaded // AttachmentState.Downloading(128, 1024)
+
+    val file2 = Attachment.File(
+        name = "Surface 2022.03.29_15_15.jpg",
+        location = "https://images.unsplash.com/photo-1640622304293-ec9c89c6bac9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+        size = 102478,
+        extension = "jpeg"
+    )
+
+    file2.state = AttachmentState.Downloading(128, 1024)
+
+    val file3 = Attachment.File(
+        name = "Surface 2022.03.29_15_15.mp4",
+        location = "https://images.unsplash.com/photo-1640622304293-ec9c89c6bac9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+        size = 6668798,
+        extension = "mp4"
+    )
+
+    file3.state = AttachmentState.NotDownloaded
+
+    val files = listOf(file1, file2, file3)
+
+    val message4 = Message()
+    message4.type = Message.Type.TYPE_FILE
+    message4.attachment = files
+
+    return listOf(message1, message2, message2, message3, message4)
 }
