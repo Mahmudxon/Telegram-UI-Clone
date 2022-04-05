@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.application
+package uz.uniconsoft.messanger.application.storage
 
 import android.content.Context
 import uz.uniconsoft.messanger.business.domain.model.Attachment

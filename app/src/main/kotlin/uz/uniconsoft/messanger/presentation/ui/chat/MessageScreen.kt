@@ -178,7 +178,6 @@ fun MessagePhotoItems(images: List<Attachment.Photo>, click: (Attachment.Photo) 
     }
 }
 
-
 @Composable
 fun MessageFileItem(
     file: Attachment.File,
@@ -321,10 +320,11 @@ fun MessageContent(
             }
         }
 
-        if (message.type != Message.Type.TYPE_TEXT)
+        if (message.type != Message.Type.TYPE_TEXT && message.text.isNotEmpty())
             Spacer(modifier = Modifier.height(16.dp))
 
-        TextMessageContent(message = message, theme = theme, onClick = annotationClick)
+        if (message.text.isNotEmpty())
+            TextMessageContent(message = message, theme = theme, onClick = annotationClick)
 
         Row {
             Text(

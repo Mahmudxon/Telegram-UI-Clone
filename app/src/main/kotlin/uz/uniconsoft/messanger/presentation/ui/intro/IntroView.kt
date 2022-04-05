@@ -3,7 +3,6 @@ package uz.uniconsoft.messanger.presentation.ui.intro
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -79,7 +77,11 @@ fun IntroPagerView(
 
 @ExperimentalPagerApi
 @Composable
-fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int>) {
+fun IntroLottieView(
+    onclick: () -> Unit,
+    pagerState: PagerState,
+    texture: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize())
     {
 
@@ -92,13 +94,6 @@ fun IntroLottieView(onclick: () -> Unit, pagerState: PagerState, icons: List<Int
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Image(
-                modifier = Modifier
-                    .width(90.dp)
-                    .height(90.dp),
-                painter = painterResource(id = icons[pagerState.currentPage]),
-                contentDescription = ""
-            )
         }
         Column(
             modifier = Modifier
