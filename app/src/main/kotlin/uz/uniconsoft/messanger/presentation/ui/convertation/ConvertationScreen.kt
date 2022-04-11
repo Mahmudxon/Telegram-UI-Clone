@@ -33,7 +33,6 @@ import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.business.domain.util.getFakeMessages
 import uz.uniconsoft.messanger.presentation.theme.BottomSheetShapes
 import uz.uniconsoft.messanger.presentation.theme.Theme
-import uz.uniconsoft.messanger.presentation.ui.chat.MessageItem
 import uz.uniconsoft.messanger.presentation.ui.main.Router
 
 @ExperimentalFoundationApi

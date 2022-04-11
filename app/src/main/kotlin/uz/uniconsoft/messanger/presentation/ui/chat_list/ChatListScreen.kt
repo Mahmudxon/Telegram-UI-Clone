@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.chat
+package uz.uniconsoft.messanger.presentation.ui.chat_list
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -36,9 +36,9 @@ import uz.uniconsoft.messanger.R
 import uz.uniconsoft.messanger.business.domain.util.Chat
 import uz.uniconsoft.messanger.business.domain.util.DataDummy
 import uz.uniconsoft.messanger.presentation.component.AppDrawer
-import uz.uniconsoft.messanger.presentation.ui.main.Routes
 import uz.uniconsoft.messanger.presentation.theme.Blue500
 import uz.uniconsoft.messanger.presentation.theme.Theme
+import uz.uniconsoft.messanger.presentation.ui.main.Routes
 
 @Composable
 fun ChatScreen(

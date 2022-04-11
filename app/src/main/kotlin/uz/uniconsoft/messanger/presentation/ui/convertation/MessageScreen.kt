@@ -1,4 +1,4 @@
-package uz.uniconsoft.messanger.presentation.ui.chat
+package uz.uniconsoft.messanger.presentation.ui.convertation
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -56,8 +56,8 @@ fun TextMessageContent(
 @Composable
 fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
     when (val state = photo.state) {
-        is AttachmentState.NotDownloaded,
-        is AttachmentState.Downloading -> {
+        is Attachment.AttachmentState.NotDownloaded,
+        is Attachment.AttachmentState.Downloading -> {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,7 +80,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
                 )
                 {
 
-                    if (state is AttachmentState.NotDownloaded) {
+                    if (state is Attachment.AttachmentState.NotDownloaded) {
                         OutlinedButton(
                             onClick = click,
                             modifier = Modifier
@@ -93,7 +93,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
                                 contentDescription = "Download Icon",
                             )
                         }
-                    } else if (state is AttachmentState.Downloading) {
+                    } else if (state is Attachment.AttachmentState.Downloading) {
                         OutlinedButton(
                             onClick = click,
                             modifier = Modifier
@@ -130,7 +130,7 @@ fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
                 }
             }
         }
-        is AttachmentState.Downloaded -> {
+        is Attachment.AttachmentState.Downloaded -> {
             AsyncImage(
                 model = photo.thumbnail, // LocalFileManager.current.getAttachmentDownloadedPath(photo),
                 contentDescription = null,
@@ -212,7 +212,7 @@ fun MessageFileItem(
                 Box(modifier = Modifier.fillMaxSize()) {
 
                     val icon = when (state) {
-                        is AttachmentState.Downloading -> {
+                        is Attachment.AttachmentState.Downloading -> {
                             val infiniteTransition = rememberInfiniteTransition()
                             val angle by infiniteTransition.animateFloat(
                                 initialValue = 0F,
@@ -234,7 +234,7 @@ fun MessageFileItem(
 
                             Icons.Default.Cancel
                         }
-                        AttachmentState.Downloaded -> Icons.Default.InsertDriveFile
+                        Attachment.AttachmentState.Downloaded -> Icons.Default.InsertDriveFile
                         else -> Icons.Default.Download
                     }
 
@@ -340,11 +340,15 @@ fun MessageContent(
                 else -> Icons.Default.Error
             }
 
+            val statusIconColor =
+                if (message.status == Message.Status.STATUS_ERROR)
+                    Color.Red else captionColor
+
             Icon(
                 imageVector = statusIcon,
                 contentDescription = "Message Status",
                 modifier = Modifier.width(16.dp),
-                tint = captionColor
+                tint = statusIconColor
             )
         }
     }

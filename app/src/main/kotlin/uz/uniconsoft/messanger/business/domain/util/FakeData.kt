@@ -4,7 +4,6 @@ import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Conversation
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.business.domain.model.Profile
-import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
 
 val fakeProfiles = listOf(
     Profile(
@@ -141,25 +140,25 @@ fun getFakeMessages(): List<Message> {
         )
 
 
-    photos[0].state = AttachmentState.Downloading(128, 1024)
-    photos[2].state = AttachmentState.Downloaded
+    photos[0].state = Attachment.AttachmentState.Downloading(128, 1024)
+    photos[2].state = Attachment.AttachmentState.Downloaded
 
     val message1 = Message()
     message1.type = Message.Type.TYPE_TEXT
     message1.attachment = photos
-    message1.text = "Normal `code`  *bold*   https://google.com  @username"
+    message1.text = "Normal `code` **bold**   https://google.com  @username"
     message1.status = Message.Status.STATUS_SEEN
 
     val message2 = Message()
     message2.type = Message.Type.TYPE_PHOTO
     message2.attachment = photos
-    message2.text = "Normal `code`  *bold*   https://google.com  @username"
+    message2.text = "Normal `code`  **bold**  https://google.com  @username"
     message2.status = Message.Status.STATUS_SENT
 
     val message3 = Message()
     message3.type = Message.Type.TYPE_TEXT
     message3.attachment = photos
-    message3.text = "Normal `code`  *bold*   https://google.com  @username"
+    message3.text = "Normal ```printf(\"Hello, World!\");``` **bold** https://google.com  @username"
     message3.status = Message.Status.STATUS_WAITING
 
     val file1 = Attachment.File(
@@ -169,7 +168,7 @@ fun getFakeMessages(): List<Message> {
         extension = "zip"
     )
 
-    file1.state = AttachmentState.Downloaded
+    file1.state = Attachment.AttachmentState.Downloaded
     // AttachmentState.NotDownloaded // AttachmentState.Downloading(128, 1024)
 
     val file2 = Attachment.File(
@@ -179,7 +178,7 @@ fun getFakeMessages(): List<Message> {
         extension = "jpeg"
     )
 
-    file2.state = AttachmentState.Downloading(128, 1024)
+    file2.state = Attachment.AttachmentState.Downloading(128, 1024)
 
     val file3 = Attachment.File(
         name = "Surface 2022.03.29_15_15.mp4",
@@ -188,13 +187,16 @@ fun getFakeMessages(): List<Message> {
         extension = "mp4"
     )
 
-    file3.state = AttachmentState.NotDownloaded
+    file3.state = Attachment.AttachmentState.NotDownloaded
 
     val files = listOf(file1, file2, file3)
 
     val message4 = Message()
     message4.type = Message.Type.TYPE_FILE
     message4.attachment = files
+    message4.text = " __italic__ -> italic\n" +
+            " * | ~~strikethrough~~ -> strikethrough"
+    message4.status = Message.Status.STATUS_ERROR
 
     return listOf(message1, message2, message2, message3, message4)
 }

@@ -13,8 +13,7 @@ import uz.uniconsoft.messanger.business.domain.model.Attachment
 import uz.uniconsoft.messanger.business.domain.model.Message
 import uz.uniconsoft.messanger.presentation.theme.LocalTheme
 import uz.uniconsoft.messanger.presentation.theme.ThemeManger
-import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
-import uz.uniconsoft.messanger.presentation.ui.chat.MessageItem
+import uz.uniconsoft.messanger.presentation.ui.convertation.MessageItem
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +32,7 @@ class PreviewActivity : AppCompatActivity() {
             extension = "JPEG"
         )
 
-        file1.state = AttachmentState.Downloaded
+        file1.state = Attachment.AttachmentState.Downloaded
         // AttachmentState.NotDownloaded // AttachmentState.Downloading(128, 1024)
 
         val file2 = Attachment.File(
@@ -43,7 +42,7 @@ class PreviewActivity : AppCompatActivity() {
             extension = "JPEG"
         )
 
-        file2.state = AttachmentState.Downloading(128, 1024)
+        file2.state = Attachment.AttachmentState.Downloading(128, 1024)
 
         val file3 = Attachment.File(
             name = "Surface 2022.03.29_15_15.jpg",
@@ -52,7 +51,7 @@ class PreviewActivity : AppCompatActivity() {
             extension = "JPEG"
         )
 
-        file3.state = AttachmentState.NotDownloaded
+        file3.state = Attachment.AttachmentState.NotDownloaded
 
         val files = listOf(file1, file2, file3)
 

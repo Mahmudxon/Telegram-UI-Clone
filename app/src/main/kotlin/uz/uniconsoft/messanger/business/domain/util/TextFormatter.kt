@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 
 // Regex containing the syntax tokens
 val symbolPattern by lazy {
-    Regex("""(https?://[^\s\t\n]+)|(`[^`]+`)|(@\w+)|(\*[\w]+\*)|(_[\w]+_)|(~[\w]+~)""")
+    Regex("""(https?://[^\s\t\n]+)|(```[^`]+```)|(@\w+)|(\*\*[\w]+\*\*)|(__[\w]+__)|(~~[\w]+~~)""")
 }
 
 // Accepted annotations for the ClickableTextWrapper
@@ -25,18 +25,6 @@ typealias StringAnnotation = AnnotatedString.Range<String>
 // Pair returning styled content and annotation for ClickableText when matching syntax token
 typealias SymbolAnnotation = Pair<AnnotatedString, StringAnnotation?>
 
-/**
- * Format a message following Markdown-lite syntax
- * | @username -> bold, primary color and clickable element
- * | http(s)://... -> clickable link, opening it into the browser
- * | *bold* -> bold
- * | _italic_ -> italic
- * | ~strikethrough~ -> strikethrough
- * | `MyClass.myMethod` -> inline code styling
- *
- * @param text contains message to be parsed
- * @return AnnotatedString with annotations used inside the ClickableText wrapper
- */
 @Composable
 fun messageFormatter(
     text: String,
@@ -101,28 +89,28 @@ private fun getSymbolAnnotation(
         )
         '*' -> SymbolAnnotation(
             AnnotatedString(
-                text = matchResult.value.trim('*'),
+                text = matchResult.value.replace("**", ""),
                 spanStyle = SpanStyle(fontWeight = FontWeight.Bold)
             ),
             null
         )
         '_' -> SymbolAnnotation(
             AnnotatedString(
-                text = matchResult.value.trim('_'),
+                text = matchResult.value.replace("__", ""),
                 spanStyle = SpanStyle(fontStyle = FontStyle.Italic)
             ),
             null
         )
         '~' -> SymbolAnnotation(
             AnnotatedString(
-                text = matchResult.value.trim('~'),
+                text = matchResult.value.replace("~~", ""),
                 spanStyle = SpanStyle(textDecoration = TextDecoration.LineThrough)
             ),
             null
         )
         '`' -> SymbolAnnotation(
             AnnotatedString(
-                text = matchResult.value.trim('`'),
+                text = matchResult.value.replace("```", ""),
                 spanStyle = SpanStyle(
                     fontFamily = FontFamily.Monospace,
                     fontSize = 12.sp,

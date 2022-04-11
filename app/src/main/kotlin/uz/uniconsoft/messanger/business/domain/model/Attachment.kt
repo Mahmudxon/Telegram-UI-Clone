@@ -1,8 +1,5 @@
 package uz.uniconsoft.messanger.business.domain.model
 
-import uz.uniconsoft.messanger.presentation.ui.chat.AttachmentState
-import java.security.cert.Extension
-
 sealed class Attachment {
     val id: Long = 0L
     var state: AttachmentState = AttachmentState.NotDownloaded
@@ -53,4 +50,14 @@ sealed class Attachment {
         var latitude: Double,
         var longitude: Double
     ) : Attachment()
+
+    sealed class AttachmentState {
+        object NotDownloaded : AttachmentState()
+        data class Downloading(
+            val currentBytes: Long,
+            val totalBytes: Long
+        ) : AttachmentState()
+
+        object Downloaded : AttachmentState()
+    }
 }

@@ -41,7 +41,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
@@ -170,10 +169,8 @@ class IntroActivity : AppCompatActivity() {
                                 Texture(
                                     modifier = Modifier
                                         .width(200.dp)
-                                        .height(150.dp),
-                                    pagerState = pagerState
+                                        .height(150.dp)
                                 )
-
 
 
                                 currentViewPagerPage = pagerState.currentPage
@@ -336,12 +333,7 @@ class IntroActivity : AppCompatActivity() {
                 return false
             }
 
-            eglSurface = if (surfaceTexture is SurfaceTexture) {
-                egl10!!.eglCreateWindowSurface(eglDisplay, eglConfig, surfaceTexture, null)
-            } else {
-                finish()
-                return false
-            }
+            eglSurface = egl10!!.eglCreateWindowSurface(eglDisplay, eglConfig, surfaceTexture, null)
 
             if (eglSurface == null || eglSurface === EGL10.EGL_NO_SURFACE) {
                 Log.e(TAG, "initGL: ${GLUtils.getEGLErrorString(egl10!!.eglGetError())}")
@@ -492,7 +484,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun Texture(modifier: Modifier, pagerState: PagerState) {
+    fun Texture(modifier: Modifier) {
         AndroidView(modifier = modifier, factory = { context ->
             val textureView = TextureView(context)
             textureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
