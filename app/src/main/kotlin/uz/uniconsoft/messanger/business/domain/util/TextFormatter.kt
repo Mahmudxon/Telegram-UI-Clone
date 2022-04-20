@@ -61,12 +61,6 @@ fun messageFormatter(
     }
 }
 
-/**
- * Map regex matches found in a message with supported syntax symbols
- *
- * @param matchResult is a regex result matching our syntax symbols
- * @return pair of AnnotatedString with annotation (optional) used inside the ClickableText wrapper
- */
 private fun getSymbolAnnotation(
     matchResult: MatchResult,
     color: Color
