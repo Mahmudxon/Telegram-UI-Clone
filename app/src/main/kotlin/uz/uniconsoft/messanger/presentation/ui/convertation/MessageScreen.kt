@@ -54,6 +54,76 @@ fun TextMessageContent(
 }
 
 @Composable
+fun MessageVoiceItem(
+    audio: Attachment.Voice,
+    onClick: () -> Unit,
+    iconBackColor: Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = onClick,
+            modifier = Modifier
+                .size(56.dp),
+            shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(backgroundColor = iconBackColor),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            when (val state = audio.state) {
+                is Attachment.AttachmentState.NotDownloaded -> {
+                    Icon(
+                        imageVector = Icons.Default.Download,
+                        contentDescription = "Download Icon",
+                    )
+                }
+                is Attachment.AttachmentState.Downloading -> {
+                    val infiniteTransition = rememberInfiniteTransition()
+                    val angle by infiniteTransition.animateFloat(
+                        initialValue = 0F,
+                        targetValue = 360F,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(2000, easing = LinearEasing)
+                        )
+                    )
+                    val progress = state.currentBytes.toFloat() / state.totalBytes
+
+                    Box {
+                        CircularProgressIndicator(
+                            progress = if (progress > 0) progress else 0.02f,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .rotate(angle)
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Cancel,
+                            contentDescription = "Cancel Icon",
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
+                else -> {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = "Download Icon",
+                    )
+                }
+            }
+        }
+
+        Slider(
+            value = 0.5f, onValueChange = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
 fun MessagePhotoItem(photo: Attachment.Photo, click: (() -> Unit)) {
     when (val state = photo.state) {
         is Attachment.AttachmentState.NotDownloaded,
@@ -210,7 +280,6 @@ fun MessageFileItem(
             ) {
 
                 Box(modifier = Modifier.fillMaxSize()) {
-
                     val icon = when (state) {
                         is Attachment.AttachmentState.Downloading -> {
                             val infiniteTransition = rememberInfiniteTransition()
