@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uz.uniconsoft.messanger">
+    package="uz.mahmudxon.messanger">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.BaseApplication"
+        android:name="uz.mahmudxon.messanger.application.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/AppName"
@@ -14,16 +14,16 @@
         android:theme="@style/Theme.Messanger">
 
         <activity
-            android:name="uz.uniconsoft.messanger.presentation.ui.main.MainActivity"
+            android:name="uz.mahmudxon.messanger.presentation.ui.main.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name="uz.uniconsoft.messanger.presentation.ui.auth.AuthActivity"
+            android:name="uz.mahmudxon.messanger.presentation.ui.auth.AuthActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
-            android:name="uz.uniconsoft.messanger.presentation.ui.intro.IntroActivity"
+            android:name="uz.mahmudxon.messanger.presentation.ui.intro.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.PreviewActivity"
+            android:name="uz.mahmudxon.messanger.presentation.PreviewActivity"
             android:exported="true"
             android:label="Preview">
             <!--            <intent-filter>-->
