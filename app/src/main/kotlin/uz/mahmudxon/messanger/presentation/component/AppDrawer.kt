@@ -24,6 +24,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import uz.mahmudxon.messanger.presentation.ui.main.Router
 import uz.mahmudxon.messanger.presentation.ui.main.Routes
 import uz.mahmudxon.messanger.presentation.theme.Theme
+import uz.mahmudxon.messanger.R
 
 @Composable
 fun AppDrawer(theme: Theme) {

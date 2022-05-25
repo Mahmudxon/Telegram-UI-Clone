@@ -155,4 +155,5 @@ dependencies {
 
     // Coil
     implementation "io.coil-kt:coil-compose:2.0.0-rc02"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.11"
 }

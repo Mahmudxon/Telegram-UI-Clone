@@ -60,6 +60,7 @@ import javax.inject.Inject
 import javax.microedition.khronos.egl.*
 import javax.microedition.khronos.opengles.GL
 import javax.microedition.khronos.opengles.GL10
+import uz.mahmudxon.messanger.R
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
